@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SYDE 572 - Assignment 1</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <main>
+        <a href="../index.html">&larr; Back to home page</a>
+
+        <h1>SYDE 572 - Assignment 1</h1>
+
+        <h2>Part 1: Find shortest distance from a point to a function</h2>
+
+        <section>
+            <h3>Analytical Approach</h3>
+
+            <p>
+                Given the function <strong>f(x) = x<sup>2</sup> + 5</strong> and the points
+                <strong>(0,0), (-4,0), (-8,0), (2,0), (6,0)</strong>, we want to find
+                the shortest distance from each point to the function.
+            </p>
+
+            <p>
+                The squared distance is
+            </p>
+
+            <p class="formula">
+                <strong>
+                    D(x) = (x - x<sub>0</sub>)<sup>2</sup>
+                    + (f(x) - y<sub>0</sub>)<sup>2</sup>
+                </strong>
+            </p>
+
+            <p>
+                Taking the derivative and using
+                <strong>f(x) = x<sup>2</sup> + 5</strong> and
+                <strong>f'(x) = 2x</strong>, we have
+            </p>
+
+            <p class="formula">
+                <strong>
+                    D'(x) = 2(x - x<sub>0</sub>) + 2(x<sup>2</sup> + 5)(2x) = 4x<sup>3</sup> + 22x - 2x<sub>0</sub>
+                </strong>
+            </p>
+
+            <hr>
+
+            <p style="text-decoration: underline;">
+                Point <strong>(0,0)</strong>:
+            </p>
+
+            <p>
+                Setting <strong>D'(x) = 0</strong> gives
+            </p>
+
+            <p class="formula">
+                <strong>
+                    0 = 4x<sup>3</sup> + 22x
+                </strong>
+            </p>
+
+            <p>
+                Solving this equation gives <strong>x = 0</strong>, and therefore <strong>f(0) = 5</strong>.
+            </p>
+
+            <p>
+                Using the closest point <strong>(0, 5)</strong> and the given point <strong>(0, 0)</strong>, the distance is
+            </p>
+
+            <p class="formula">
+                <strong>
+                    d = sqrt((0 - 0)<sup>2</sup> + (5 - 0)<sup>2</sup>) = 5
+                </strong>
+            </p>
+
+            <hr>
+            <p style="text-decoration: underline;">
+                Point <strong>(-4,0)</strong>:
+            </p>
+
+            <p>
+                Setting <strong>D'(x) = 0</strong> gives
+            </p>
+
+            <p class="formula">
+                <strong>
+                    0 = 4x<sup>3</sup> + 22x + 8
+                </strong>
+            </p>
+
+            <p>
+                Solving this equation gives <strong>x ≈ -0.3555</strong>, and therefore <strong>f(-0.3555) ≈ 5.1264</strong>.
+            </p>
+
+            <p>
+                Using the closest point <strong>(-0.3555, 5.1264)</strong> and the given point <strong>(-4, 0)</strong>, the distance is
+            </p>
+
+            <p class="formula">
+                <strong>
+                    d = sqrt((-0.3555 + 4)<sup>2</sup> + (5.1264 - 0)<sup>2</sup>) ≈ 6.2898
+                </strong>
+            </p>
+
+            <hr>
+
+            <p>
+                We can repeat this process for the other points, and the results are summarized in the table below.
+            </p>
+
+            <table>
+                <tr>
+                    <th>Point</th>
+                    <th>Closest x</th>
+                    <th>Closest Point</th>
+                    <th>Distance</th>
+                </tr>
+
+                <tr>
+                    <td>(0, 0)</td>
+                    <td>0.0000</td>
+                    <td>(0.0000, 5.0000)</td>
+                    <td>5.0000</td>
+                </tr>
+
+                <tr>
+                    <td>(-4, 0)</td>
+                    <td>-0.3555</td>
+                    <td>(-0.3555, 5.1264)</td>
+                    <td>6.2898</td>
+                </tr>
+
+                <tr>
+                    <td>(-8, 0)</td>
+                    <td>-0.6721</td>
+                    <td>(-0.6721, 5.4517)</td>
+                    <td>9.1334</td>
+                </tr>
+
+                <tr>
+                    <td>(2, 0)</td>
+                    <td>0.1807</td>
+                    <td>(0.1807, 5.0327)</td>
+                    <td>5.3514</td>
+                </tr>
+
+                <tr>
+                    <td>(6, 0)</td>
+                    <td>0.5199</td>
+                    <td>(0.5199, 5.2703)</td>
+                    <td>7.6031</td>
+                </tr>
+            </table>
+        </section>
+
+
+        <section>
+            <h3>Newton-Raphson Method</h3>
+
+            <p>Given <strong>f(x) = x<sup>2</sup> + 5</strong> and <strong>f'(x) = 2x</strong>, we have </p>
+            <p class="formula">
+                <strong>
+                    D'(x) = 4x<sup>3</sup> + 22x - 2x<sub>0</sub>
+                </strong>
+                &emsp;&emsp;
+                <strong>
+                    D''(x) = 12x<sup>2</sup> + 22
+                </strong>
+            </p>
+            <p>We update x using the Newton-Raphson formula:</p>
+            <p class="formula">
+                <strong>
+                    x<sub>n+1</sub> = x<sub>n</sub> - (D'(x<sub>n</sub>) / D''(x<sub>n</sub>))
+                </strong>
+            </p>
+            <p>We start with the initial guess x<sub>0</sub> = 0.0 and ends when <strong>next_x - x < tolerance = 1e-7</strong>:</p>
+            
+            <hr>
+
+            <h4>Following the Newton-Raphson Method by Hand</h4>
+            <p style="text-decoration: underline;">Point <strong>(0, 0)</strong></p>
+            
+            <table> 
+                <tr> 
+                    <th>Iteration</th> 
+                    <th>x</th> 
+                    <th>D'(x)</th> 
+                    <th>D''(x)</th> 
+                    <th>Next x</th>
+                </tr> 
+
+                <tr> 
+                    <td>0</td> 
+                    <td>0.000000</td> 
+                    <td>0.000000</td> 
+                    <td>22.000000</td> 
+                    <td>0.000000</td>
+                </tr> 
+            </table>
+            <p>The method converges to <strong>x = 0</strong> with <strong>f(0) = 5</strong>.</p>
+            <p>Given closest point (0, 5) and the given point (0, 0), the shortest distance is 5.</p>
+
+            <hr>
+            <p style="text-decoration: underline;">Point <strong>(-4, 0)</strong></p>
+            <table>
+                <tr>
+                    <th>Iteration</th>
+                    <th>x</th>
+                    <th>D'(x)</th>
+                    <th>D''(x)</th>
+                    <th>Next x</th>
+                </tr>
+
+                <tr>
+                    <td>0</td>
+                    <td>0.000000</td>
+                    <td>8.000000</td>
+                    <td>22.000000</td>
+                    <td>-0.363636</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>-0.363636</td>
+                    <td>-0.192337</td>
+                    <td>23.586777</td>
+                    <td>-0.355482</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>-0.355482</td>
+                    <td>-0.000288</td>
+                    <td>23.516409</td>
+                    <td>-0.355470</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>-0.355470</td>
+                    <td>0.000000</td>
+                    <td>23.516304</td>
+                    <td>-0.355470</td>
+                </tr>
+            </table>
+
+            <p>The method converges to <strong>x = -0.3555</strong> with <strong>f(-0.3555) ≈ 5.1264</strong>.</p>
+            <p>Given closest point (-0.3555, 5.1264) and the given point (-4, 0), the shortest distance is approximately 6.2898.</p>
+            <hr>
+
+            <p style="text-decoration: underline;">Point <strong>(-8, 0)</strong>:</p>
+            
+            <p>Using the given Newton-Raphson method, copied to <strong>newton-raphson.ipynb</strong>, we obtained the following iterations:</p>
+
+            <table>
+                <tr>
+                    <th>Iteration</th>
+                    <th>x</th>
+                </tr>
+
+                <tr>
+                    <td>0</td>
+                    <td>0.000000</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>-0.727273</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>-0.672992</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>-0.672078</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>-0.672078</td>
+                </tr>
+            </table>
+
+            <p>The method converges to <strong>x = -0.6721</strong>, which is the exact same result as the analytical approach.</p>
+            <p>Since <strong>x = -0.6721</strong>, then <strong>f(-0.6721) ≈ 5.4517</strong>.</p> 
+            <p>With the closest point (-0.6721, 5.4517) and the given point (-8, 0), the shortest distance is approximately 8.9920.</p>
+
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: flex-start;">
+                <img src="media/newton_full.png"
+                    alt="Newton-Raphson Full Iterations"
+                    style="width: 48%; height: auto;">
+                <img src="media/newton_zoomed.png"
+                    alt="Newton-Raphson Zoomed Iterations"
+                    style="width: 48%; height: auto;">
+            </div>
+            
+            <p>After plotting the iterations, we can see that the method slowly converges to a point on the function.</p>
+            <hr>
+            
+            <h4>Explore non-polynomial functions</h4>
+
+            <p>
+                We explore the Newton-Raphson method on non-polynomial functions, such as the exponential function.
+            </p>
+
+            <p>
+                Given <strong>f(x) = 2<sup>x</sup> + 2</strong> and <strong>f'(x) = 2<sup>x</sup> * ln(2)</strong> and point (6, 0), we have
+            </p>
+            
+            <p class="formula"> 
+                <strong> 
+                    D'(x) = 2(x - 6) + 2(2<sup>x</sup> + 2) &middot; 2<sup>x</sup>ln(2) 
+                </strong> 
+                &emsp;&emsp; 
+                <strong> 
+                    D''(x) = 2 + 2[2<sup>x</sup>ln(2)]<sup>2</sup> + 2(2<sup>x</sup> + 2)2<sup>x</sup>[ln(2)]<sup>2</sup>
+                </strong> 
+            </p>
+
+            <p>We update x using the Newton-Raphson formula:</p>
+
+            <table>
+                <tr>
+                    <th>Iteration</th>
+                    <th>x</th>
+                    <th>D'(x)</th>
+                    <th>D''(x)</th>
+                    <th>Next x</th>
+                </tr>
+
+                <tr>
+                    <td>0</td>
+                    <td>0.000000</td>
+                    <td>-7.841117</td>
+                    <td>5.843624</td>
+                    <td>1.341824</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>1.341824</td>
+                    <td>6.618021</td>
+                    <td>19.218482</td>
+                    <td>0.997467</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>0.997467</td>
+                    <td>1.056127</td>
+                    <td>13.497187</td>
+                    <td>0.919219</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>0.919219</td>
+                    <td>0.039362</td>
+                    <td>12.507160</td>
+                    <td>0.916072</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>0.916072</td>
+                    <td>0.000060</td>
+                    <td>12.469320</td>
+                    <td>0.916067</td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>0.916067</td>
+                    <td>0.000000</td>
+                    <td>12.469263</td>
+                    <td>0.916067</td>
+                </tr>
+            </table>
+
+            <p>
+                Notice that the method converges to <strong>x ≈ 0.9161</strong> 
+                with <strong>f(0.9161) ≈ 3.8870</strong>.
+            </p>
+
+            <p>
+                Given closest point <strong>(0.9161, 3.8870)</strong> and the given point 
+                <strong>(6, 0)</strong>, the shortest distance is approximately 
+                <strong>6.3996</strong>.
+            </p>
+
+
+
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: flex-start;">
+                <img src="media/newton_full_exp.png"
+                    alt="Newton-Raphson Full Iterations for Exponential Function"
+                    style="width: 48%; height: auto;">
+                <img src="media/newton_zoomed_exp.png"
+                    alt="Newton-Raphson Zoomed Iterations for Exponential Function"
+                    style="width: 48%; height: auto;">
+            </div>
+
+        </section>
+
+
+        <section>
+            <h2>Golden Section Search</h2>
+
+            <p>
+                The Golden Section Search method minimizes the squared distance
+                without requiring the derivative of the function.
+            </p>
+
+            <!-- Add explanation, Python code, results, and plots here -->
+
+        </section>
+
+
+        <section>
+            <h2>Additional Functions</h2>
+
+            <p>
+                The numerical methods were also tested on non-polynomial functions,
+                including exponential, logarithmic, and radical functions.
+            </p>
+
+            <!-- Add additional results and plots here -->
+
+        </section>
+
+
+        <section>
+            <h2>Part Two: Fitting to an Equation</h2>
+
+            <h3>Given Data</h3>
+
+            <p>
+                The following points are used to fit a line and a parabola:
+            </p>
+
+            <p>
+                <strong>
+                    (0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)
+                </strong>
+            </p>
+
+            <h3>Line Fit</h3>
+
+            <p>
+                We fit a line of the form
+                <strong>y = c<sub>0</sub> + c<sub>1</sub>x</strong>
+                by minimizing the mean squared error.
+            </p>
+
+            <!-- Add analytical solution, numerical solution, and plot -->
+
+            <h3>Parabola Fit</h3>
+
+            <p>
+                We fit a parabola of the form
+                <strong>
+                    y = c<sub>0</sub> + c<sub>1</sub>x + c<sub>2</sub>x<sup>2</sup>
+                </strong>
+                by minimizing the mean squared error.
+            </p>
+
+            <!-- Add analytical solution, numerical solution, and plot -->
+
+        </section>
+
+    </main>
+</body>
+</html>
