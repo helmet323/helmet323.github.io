@@ -57,15 +57,15 @@
         <p>Using \(f(x) = x^2 + 5\) and \(f'(x) = 2x\), we get:</p>
 
         <p class="formula">
-          \[ \begin{aligned} D'(x) &= 2(x-x_0) + 2(x^2+5)(2x) \\ &= 4x^3 + 22x -
-          2x_0 \end{aligned} \]
+          \[ \begin{aligned} D'(x) &= 2(x-x_0) + 2(x^2+5 - y_0)(2x) \\ &= 4x^3 +
+          22x - 4xy_0 - 2x_0\end{aligned} \]
         </p>
 
         <hr />
 
         <h4>By hand: Point \((0,0)\)</h4>
 
-        <p>Setting \(D'(x) = 0\) and substituting \(x_0 = 0\) gives:</p>
+        <p>Setting \(D'(x) = 0\) and substituting \((0, 0)\) gives:</p>
 
         <p class="formula">\[ 0 = 4x^3 + 22x \]</p>
 
@@ -84,7 +84,7 @@
 
         <h4>By hand: Point \((-4,0)\)</h4>
 
-        <p>Setting \(D'(x) = 0\) and substituting \(x_0 = -4\) gives:</p>
+        <p>Setting \(D'(x) = 0\) and substituting \((-4, 0)\) gives:</p>
 
         <p class="formula">\[ 0 = 4x^3 + 22x + 8 \]</p>
 
@@ -158,10 +158,10 @@
         <h3>Newton-Raphson Method</h3>
 
         <p>
-          To use the Newton-Raphson method, we need the first and second
-          derivatives of the squared distance function \(D(x)\). We also need an
-          initial guess for \(x\) and a tolerance level to determine when to
-          stop iterating.
+          We use the Newton-Raphson method when we can easily calculate the
+          first and second derivatives of \(f(x)\). We also need an initial
+          guess for \(x\) and a tolerance level to determine when to stop
+          iterating.
         </p>
 
         <p>Recall that the squared distance function is:</p>
@@ -174,8 +174,8 @@
         </p>
 
         <p class="formula">
-          \[ \begin{aligned} D'(x) &= 4x^3 + 22x - 2x_0 \\ D''(x) &= 12x^2 + 22
-          \end{aligned} \]
+          \[ \begin{aligned} D'(x) &= 4x^3 + 22x - 4xy_0 - 2x_0 \\ D''(x) &=
+          12x^2 + 22 - 4y_0 \end{aligned} \]
         </p>
 
         <p>We update \(x\) using the Newton-Raphson formula:</p>
@@ -205,9 +205,9 @@
 
           <tr>
             <td>0</td>
-            <td>0.000000</td>
-            <td>0.000000</td>
-            <td>22.000000</td>
+            <td>0.0000000</td>
+            <td>0.0000000</td>
+            <td>22.0000000</td>
             <td>0.000000</td>
           </tr>
         </table>
@@ -238,40 +238,40 @@
 
           <tr>
             <td>0</td>
-            <td>0.000000</td>
-            <td>8.000000</td>
-            <td>22.000000</td>
-            <td>-0.363636</td>
+            <td>0.0000000</td>
+            <td>8.0000000</td>
+            <td>22.0000000</td>
+            <td>-0.3636364</td>
           </tr>
 
           <tr>
             <td>1</td>
-            <td>-0.363636</td>
-            <td>-0.192337</td>
-            <td>23.586777</td>
-            <td>-0.355482</td>
+            <td>-0.3636364</td>
+            <td>-0.1923370</td>
+            <td>23.5867770</td>
+            <td>-0.3554820</td>
           </tr>
 
           <tr>
             <td>2</td>
-            <td>-0.355482</td>
-            <td>-0.000288</td>
-            <td>23.516409</td>
-            <td>-0.355470</td>
+            <td>-0.3554820</td>
+            <td>-0.0002880</td>
+            <td>23.5164090</td>
+            <td>-0.3554698</td>
           </tr>
 
           <tr>
             <td>3</td>
-            <td>-0.355470</td>
-            <td>0.000000</td>
-            <td>23.516304</td>
-            <td>-0.355470</td>
+            <td>-0.3554698</td>
+            <td>0.0000000</td>
+            <td>23.5163040</td>
+            <td>-0.3554698</td>
           </tr>
         </table>
 
         <p>
-          The method converges to \(x = -0.3555\), giving the closest point
-          \((-0.3555, f(-0.3555)) \approx (-0.3555, 5.1264)\).
+          The method converges to \(x \approx -0.3555\), giving the closest
+          point \((-0.3555, f(-0.3555)) \approx (-0.3555, 5.1264)\).
         </p>
 
         <p>
@@ -282,14 +282,74 @@
         <p class="formula">
           \[ d = \sqrt{(-0.3555 + 4)^2 + (5.1264 - 0)^2} \approx 6.2898 \]
         </p>
-        <hr />
 
-        <h4>Generated: Point \((-8, 0)\)</h4>
+        <hr />
+        <p>
+          We can repeat this process for the other points and obtain the
+          following results:
+        </p>
+
+        <table>
+          <tr>
+            <th>Point</th>
+            <th>Closest x</th>
+            <th>Closest Point</th>
+            <th>Distance</th>
+          </tr>
+
+          <tr>
+            <td>(0, 0)</td>
+            <td>0.0000</td>
+            <td>(0.0000, 5.0000)</td>
+            <td>5.0000</td>
+          </tr>
+
+          <tr>
+            <td>(-4, 0)</td>
+            <td>-0.3555</td>
+            <td>(-0.3555, 5.1264)</td>
+            <td>6.2898</td>
+          </tr>
+
+          <tr>
+            <td>(-8, 0)</td>
+            <td>-0.6721</td>
+            <td>(-0.6721, 5.4517)</td>
+            <td>9.1334</td>
+          </tr>
+
+          <tr>
+            <td>(2, 0)</td>
+            <td>0.1807</td>
+            <td>(0.1807, 5.0327)</td>
+            <td>5.3514</td>
+          </tr>
+
+          <tr>
+            <td>(6, 0)</td>
+            <td>0.5199</td>
+            <td>(0.5199, 5.2703)</td>
+            <td>7.6031</td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h3>Newton-Raphson Method - code</h3>
 
         <p>
-          Using the Newton-Raphson code from
-          <strong>newton-raphson.ipynb</strong>, we obtained the following
-          iterations:
+          We implemented the Newton-Raphson method in Python using the code from
+          our Jupyter Notebook, which can be viewed
+          <a href="newton-raphson.html">here</a>. The only difference is that we
+          added an array to store the values from each iteration.
+        </p>
+
+        <hr />
+
+        <h4>Example: Point \((-8, 0)\)</h4>
+
+        <p>
+          Using the Newton-Raphson method, we obtained the following iterations:
         </p>
 
         <table>
@@ -300,39 +360,44 @@
 
           <tr>
             <td>0</td>
-            <td>0.000000</td>
+            <td>0.0000000</td>
           </tr>
 
           <tr>
             <td>1</td>
-            <td>-0.727273</td>
+            <td>-0.7272727</td>
           </tr>
 
           <tr>
             <td>2</td>
-            <td>-0.672992</td>
+            <td>-0.6729923</td>
           </tr>
 
           <tr>
             <td>3</td>
-            <td>-0.672078</td>
+            <td>-0.6720784</td>
           </tr>
 
           <tr>
             <td>4</td>
-            <td>-0.672078</td>
+            <td>-0.6720781</td>
+          </tr>
+
+          <tr>
+            <td>5</td>
+            <td>-0.6720781</td>
           </tr>
         </table>
 
         <p>
-          The method converges to \(x = -0.6721\), giving the closest point
-          \((-0.6721, 5.4517)\).
+          Notice that the method converges to \(x \approx -0.6721\), with
+          \(f(-0.6721) \approx 5.4517\).
         </p>
 
         <p>
-          The shortest distance from \((-8, 0)\) to the function is
-          approximately
-          <strong>8.9920</strong>.
+          Therefore, the closest point on the curve is approximately \((-0.6721,
+          5.4517)\), and the shortest distance from \((-8,0)\) to the curve is
+          approximately \(9.1334\).
         </p>
 
         <div
@@ -345,115 +410,158 @@
         >
           <img
             src="media/newton_full.png"
-            alt="Newton-Raphson Full Iterations"
+            alt="Newton-Raphson Full"
             style="width: 48%; height: auto"
           />
           <img
             src="media/newton_zoomed.png"
-            alt="Newton-Raphson Zoomed Iterations"
+            alt="Newton-Raphson Zoomed"
             style="width: 48%; height: auto"
           />
         </div>
 
-        <p>
-          The graphs show the Newton-Raphson iterations gradually converging to
-          the closest point on the function.
-        </p>
         <hr />
 
-        <h4>Explore non-polynomial functions</h4>
+        <h4>Explore other polynomial functions</h4>
 
         <p>
-          We explore the Newton-Raphson method on non-polynomial functions, such
-          as the exponential function.
+          Using the Newton-Raphson method, we applied it to other polynomial
+          functions, such as cubic functions.
         </p>
-
         <p>
-          Given <strong>f(x) = 2<sup>x</sup> + 2</strong> and
-          <strong>f'(x) = 2<sup>x</sup> * ln(2)</strong> and point (6, 0), we
-          have
+          Given the polynomial \(f(x) = 2x^3 + x^2 - 3x +7\), \(f'(x) = 6x^2 +
+          2x - 3\), and \(f''(x) = 12x + 2\), and the point \((-1, 5)\), we get
+          the following iterations:
         </p>
-
-        <p class="formula">
-          <strong>
-            D'(x) = 2(x - 6) + 2(2<sup>x</sup> + 2) &middot; 2<sup>x</sup>ln(2)
-          </strong>
-          &emsp;&emsp;
-          <strong>
-            D''(x) = 2 + 2[2<sup>x</sup>ln(2)]<sup>2</sup> + 2(2<sup>x</sup> +
-            2)2<sup>x</sup>[ln(2)]<sup>2</sup>
-          </strong>
-        </p>
-
-        <p>We update x using the Newton-Raphson formula:</p>
 
         <table>
           <tr>
             <th>Iteration</th>
-            <th>x</th>
-            <th>D'(x)</th>
-            <th>D''(x)</th>
-            <th>Next x</th>
+            <th>\(x\)</th>
           </tr>
 
           <tr>
             <td>0</td>
-            <td>0.000000</td>
-            <td>-7.841117</td>
-            <td>5.843624</td>
-            <td>1.341824</td>
+            <td>0.0000000</td>
           </tr>
 
           <tr>
             <td>1</td>
-            <td>1.341824</td>
-            <td>6.618021</td>
-            <td>19.218482</td>
-            <td>0.997467</td>
+            <td>0.3571429</td>
           </tr>
 
           <tr>
             <td>2</td>
-            <td>0.997467</td>
-            <td>1.056127</td>
-            <td>13.497187</td>
-            <td>0.919219</td>
+            <td>0.3939311</td>
           </tr>
 
           <tr>
             <td>3</td>
-            <td>0.919219</td>
-            <td>0.039362</td>
-            <td>12.507160</td>
-            <td>0.916072</td>
+            <td>0.3948949</td>
           </tr>
 
           <tr>
             <td>4</td>
-            <td>0.916072</td>
-            <td>0.000060</td>
-            <td>12.469320</td>
-            <td>0.916067</td>
+            <td>0.3948955</td>
           </tr>
 
           <tr>
             <td>5</td>
-            <td>0.916067</td>
-            <td>0.000000</td>
-            <td>12.469263</td>
-            <td>0.916067</td>
+            <td>0.3948955</td>
           </tr>
         </table>
 
         <p>
-          Notice that the method converges to <strong>x ≈ 0.9161</strong> with
-          <strong>f(0.9161) ≈ 3.8870</strong>.
+          Notice that the method converges to \(x \approx 0.3949\), with
+          \(f(0.3949) \approx 6.0944\).
         </p>
 
         <p>
-          Given closest point <strong>(0.9161, 3.8870)</strong> and the given
-          point <strong>(6, 0)</strong>, the shortest distance is approximately
-          <strong>6.3996</strong>.
+          Therefore, the closest point on the curve is approximately \((0.3949,
+          6.0944)\), and the shortest distance from \((-1,5)\) to the curve is
+          approximately \(1.7730\).
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/newton_full_oth.png"
+            alt="Newton-Raphson Full Oth"
+            style="width: 48%; height: auto"
+          />
+        </div>
+
+        <hr />
+        <h4>Explore non-polynomial functions</h4>
+
+        <p>
+          Using the Newton-Raphson method, we applied it to non-polynomial
+          functions, such as exponential functions.
+        </p>
+
+        <p>
+          Given \(f(x) = 2^x + 2\), \(f'(x) = 2^x \ln(2)\), and \(f''(x) =
+          2^x(\ln(2))^2\), and the point \((2,3)\), we can apply the
+          Newton-Raphson method and get the following iterations:
+        </p>
+
+        <table>
+          <tr>
+            <th>Iteration</th>
+            <th>\(x\)</th>
+          </tr>
+
+          <tr>
+            <td>0</td>
+            <td>0.0000000</td>
+          </tr>
+
+          <tr>
+            <td>1</td>
+            <td>1.3509378</td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>1.0036735</td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>0.9009555</td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>0.8941453</td>
+          </tr>
+
+          <tr>
+            <td>5</td>
+            <td>0.8941181</td>
+          </tr>
+
+          <tr>
+            <td>6</td>
+            <td>0.8941181</td>
+          </tr>
+        </table>
+
+        <p>
+          Notice that the method converges to \(x \approx 0.8941\), with
+          \(f(0.8941) \approx 3.8585\).
+        </p>
+
+        <p>
+          Therefore, the closest point on the curve is approximately \((0.8941,
+          3.8585)\), and the shortest distance from \((2,3)\) to the curve is
+          approximately \(1.4000\).
         </p>
 
         <div
@@ -466,26 +574,49 @@
         >
           <img
             src="media/newton_full_exp.png"
-            alt="Newton-Raphson Full Iterations for Exponential Function"
-            style="width: 48%; height: auto"
-          />
-          <img
-            src="media/newton_zoomed_exp.png"
-            alt="Newton-Raphson Zoomed Iterations for Exponential Function"
+            alt="Newton-Raphson Full Exp"
             style="width: 48%; height: auto"
           />
         </div>
+
+        <hr />
+
+        <h4>Summary of Results</h4>
+
+        <p>
+          The Newton-Raphson method successfully converged for the given
+          polynomial function, a higher-order polynomial function, and a
+          non-polynomial function, demonstrating that the method can be applied
+          to different types of functions.
+        </p>
       </section>
 
       <section>
-        <h2>Golden Section Search</h2>
+        <h3>Golden Section Search</h3>
+
+        <h3>Golden Section Search</h3>
 
         <p>
-          The Golden Section Search method minimizes the squared distance
-          without requiring the derivative of the function.
+          We use the Golden Section Search method when we don't know the
+          derivatives of \(f(x)\) or when they are difficult to calculate.
+          Instead, we use a specific interval that contains the minimum. We also
+          use a tolerance to determine when to stop iterating.
         </p>
 
-        <!-- Add explanation, Python code, results, and plots here -->
+        <p>
+          Given the function \(f(x) = x^2 + 5\), we want to find the minimum of
+          the squared distance function \(D(x)\).
+        </p>
+
+        <p>
+          We start with an initial interval \([a,b]\) and keep iterating until
+          the length of the interval is smaller than the tolerance \(1 \times
+          10^{-7}\).
+        </p>
+
+        <hr />
+
+        <h4>By hand: Point \((0, 0)\)</h4>
       </section>
 
       <section>
