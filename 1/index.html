@@ -338,8 +338,8 @@
         <h3>Newton-Raphson Method - code</h3>
 
         <p>
-          We implemented the Newton-Raphson method in Python using the code from
-          our Jupyter Notebook, which can be viewed
+          We implemented the Newton-Raphson method in Python using the code
+          provided, which can be viewed
           <a href="newton-raphson.html">here</a>. The only difference is that we
           added an array to store the values from each iteration.
         </p>
@@ -594,29 +594,270 @@
       <section>
         <h3>Golden Section Search</h3>
 
-        <h3>Golden Section Search</h3>
-
         <p>
           We use the Golden Section Search method when we don't know the
-          derivatives of \(f(x)\) or when they are difficult to calculate.
-          Instead, we use a specific interval that contains the minimum. We also
-          use a tolerance to determine when to stop iterating.
+          derivatives of \(f(x)\) or when the derivatives are difficult to
+          calculate. For this method, we only need an estimate of the interval
+          that contains the minimum and a tolerance level to determine when to
+          stop iterating.
         </p>
-
         <p>
           Given the function \(f(x) = x^2 + 5\), we want to find the minimum of
           the squared distance function \(D(x)\).
         </p>
 
         <p>
-          We start with an initial interval \([a,b]\) and keep iterating until
-          the length of the interval is smaller than the tolerance \(1 \times
-          10^{-7}\).
+          We start with an initial interval \([a,b]\). At each iteration, we
+          calculate two points inside the interval using the golden ratio. We
+          have:
+        </p>
+
+        <p>\[ \phi = \frac{1+\sqrt{5}}{2} \]</p>
+
+        <p>and</p>
+
+        <p>\[ \text{resphi} = 2-\phi. \]</p>
+
+        <p>Thus, the two points are</p>
+
+        <p>\[ x_1 = a+\text{resphi}(b-a) \]</p>
+
+        <p>\[ x_2 = b-\text{resphi}(b-a). \]</p>
+
+        <p>
+          Then, if the squared distances \(D(x_1) < D(x_2)\), we move the right
+          endpoint to \(x_2\). Otherwise, we move the left endpoint to \(x_1\).
+          We continue this process until the length of the interval is smaller
+          than the tolerance \(1\times10^{-7}\). Finally, we use the midpoint of
+          the remaining interval as our estimate for the closest point on the
+          curve.
         </p>
 
         <hr />
 
-        <h4>By hand: Point \((0, 0)\)</h4>
+        <h4>By hand: Point \((0,0)\)</h4>
+
+        <p>
+          We pick the initial interval \([-5,5]\). Using the equations above, we
+          calculate the two points and compare their squared distances at each
+          iteration. The iterations are as follows:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Iteration</th>
+              <th>a</th>
+              <th>x₁</th>
+              <th>x₂</th>
+              <th>b</th>
+              <th>d²(x₁)</th>
+              <th>d²(x₂)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>-5.000000</td>
+              <td>-1.180340</td>
+              <td>1.180340</td>
+              <td>5.000000</td>
+              <td>42.266237</td>
+              <td>42.266237</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>-1.180340</td>
+              <td>1.180340</td>
+              <td>2.639320</td>
+              <td>5.000000</td>
+              <td>42.266237</td>
+              <td>150.151436</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>-1.180340</td>
+              <td>0.278640</td>
+              <td>1.180340</td>
+              <td>2.639320</td>
+              <td>25.860074</td>
+              <td>42.266237</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>-1.180340</td>
+              <td>-0.278640</td>
+              <td>0.278640</td>
+              <td>1.180340</td>
+              <td>25.860074</td>
+              <td>25.860074</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>-0.278640</td>
+              <td>0.278640</td>
+              <td>0.623059</td>
+              <td>1.180340</td>
+              <td>25.860074</td>
+              <td>29.420929</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>-0.278640</td>
+              <td>0.065778</td>
+              <td>0.278640</td>
+              <td>0.623059</td>
+              <td>25.047613</td>
+              <td>25.860074</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>-0.278640</td>
+              <td>-0.065778</td>
+              <td>0.065778</td>
+              <td>0.278640</td>
+              <td>25.047613</td>
+              <td>25.047613</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>-0.065778</td>
+              <td>0.065778</td>
+              <td>0.147084</td>
+              <td>0.278640</td>
+              <td>25.047613</td>
+              <td>25.238440</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>-0.065778</td>
+              <td>0.015528</td>
+              <td>0.065778</td>
+              <td>0.147084</td>
+              <td>25.002652</td>
+              <td>25.047613</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>-0.065778</td>
+              <td>-0.015528</td>
+              <td>0.015528</td>
+              <td>0.065778</td>
+              <td>25.002652</td>
+              <td>25.002652</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Looking at the first 10 iterations, the interval \((a, b)\) is
+          converging to \(0\). Thus, we have the closest point \((0, f(0)) = (0,
+          5)\) and the distance \(d = 5\)
+        </p>
+      </section>
+
+      <section>
+        <h3>Golden Section Search - code</h3>
+
+        <p>
+          We implemented the Golden Section Search method in Python using the
+          code provided, which can be viewed
+          <a href="">here</a>. The only difference is that we added an array to
+          store the interval changes from each iteration.
+        </p>
+
+        <hr />
+
+        <h4>Example: Point \((-8, 0)\)</h4>
+
+        <p>
+          Using the Golden Section Search method, the intervals changed as
+          follows:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Iteration</th>
+              <th>\(a\)</th>
+              <th>\(b\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>-5.000000</td>
+              <td>5.000000</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>-5.000000</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>-2.639320</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>-1.180340</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>-1.180340</td>
+              <td>0.278640</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>-1.180340</td>
+              <td>-0.278640</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>-0.835921</td>
+              <td>-0.278640</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>-0.835921</td>
+              <td>-0.491503</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>-0.835921</td>
+              <td>-0.623059</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>-0.754615</td>
+              <td>-0.623059</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          With more iterations, the interval converges to \(\approx -0.6721\).
+          Thus, we have the closest point \((-0.6721, f(-0.6721)) = (-0.6721,
+          5.4517)\) and the distance \(d \approx 9.1334\)
+        </p>
+
+        <hr />
+
+        <h4>Exploring other polynomial functions</h4>
+
+        <p>
+          We will use the same cubic function as before and apply the Golden
+          Section Search method.
+        </p>
+
+        <p>
+          Recall that we have \(f(x) = 2x^3 + x^2 - 3x + 7\) and the point
+          \((-1,5)\), we get the following iterations:
+        </p>
+
+        <table></table>
       </section>
 
       <section>
