@@ -1022,7 +1022,7 @@
 
         <p>
           We have the equation of a line \(y = c_0 + c_1x\). For each point
-          \((x_i, y_i)\), we have the squared error is \([y_i-(c_0+c_1x_i)]^2\).
+          \((x_i, y_i)\), we have the squared error \([y_i-(c_0+c_1x_i)]^2\).
           Thus, to fit a line with min squared error, we want to minimize the
           following error:
         </p>
@@ -1075,6 +1075,35 @@
         <p>Thus, \(c_0 = 1.45\)</p>
 
         <p>Therefore, we have the line \(y=1.45+1.2x\)</p>
+
+        <hr />
+
+        <h4>Fit to quadratic</h4>
+
+        <p>
+          We have the equation of a quadratic \(y = c_0 + c_1x + c_2x^2\). For
+          each point \((x_i,y_i)\), we have the squared error \([y_i - (c_0 +
+          c_1x_i + c_2x_i^2)]^2\). Thus we minimize the following error:
+        </p>
+
+        <p class="formula">
+          \(E(c_0,c_1,c_2) = \sum_{i=1}{n}(y_i - c_0 - c_1x - c_2x^2)^2\)
+        </p>
+
+        <p>Subbing in the points, we have</p>
+
+        <p class="formula">
+          \(E(c_0,c_1,c_2) = (0.5 - c_0)^2 + (3.5 - c_0 - c_1 - c_2)^2 + (1.5 -
+          c_0 - 2c_1 - 4c_2)^2\)
+        </p>
+
+        <p>Taking the partial derivatives, we have</p>
+
+        <p class="formula">
+          \[ \begin{aligned} \frac{\partial E}{\partial c_0} &= -2(0.5-c_0)
+          -2(3.5-c_0-c_1-c_2) -2(1.5-c_0-2c_1-4c_2) \\ &= 5.5-3c_0-3c_1-5c_2
+          \end{aligned} \]
+        </p>
       </section>
     </main>
   </body>
