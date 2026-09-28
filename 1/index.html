@@ -785,54 +785,34 @@
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
+              <td>0</td>
               <td>-5.000000</td>
               <td>5.000000</td>
             </tr>
             <tr>
-              <td>2</td>
+              <td>1</td>
               <td>-5.000000</td>
               <td>1.180340</td>
             </tr>
             <tr>
-              <td>3</td>
+              <td>2</td>
               <td>-2.639320</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>-1.180340</td>
               <td>1.180340</td>
             </tr>
             <tr>
               <td>4</td>
               <td>-1.180340</td>
-              <td>1.180340</td>
+              <td>0.278640</td>
             </tr>
             <tr>
               <td>5</td>
               <td>-1.180340</td>
-              <td>0.278640</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>-1.180340</td>
               <td>-0.278640</td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>-0.835921</td>
-              <td>-0.278640</td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>-0.835921</td>
-              <td>-0.491503</td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>-0.835921</td>
-              <td>-0.623059</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>-0.754615</td>
-              <td>-0.623059</td>
             </tr>
           </tbody>
         </table>
@@ -842,6 +822,21 @@
           Thus, we have the closest point \((-0.6721, f(-0.6721)) = (-0.6721,
           5.4517)\) and the distance \(d \approx 9.1334\)
         </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/golden.png"
+            alt="Golden"
+            style="width: 48%; height: auto"
+          />
+        </div>
 
         <hr />
 
@@ -854,55 +849,232 @@
 
         <p>
           Recall that we have \(f(x) = 2x^3 + x^2 - 3x + 7\) and the point
-          \((-1,5)\), we get the following iterations:
+          \((-1,5)\), using the same initial interval \([-5, 5]\), we get the
+          following iterations:
         </p>
 
-        <table></table>
+        <table>
+          <thead>
+            <tr>
+              <th>Iteration</th>
+              <th>\(a\)</th>
+              <th>\(b\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>-5.000000</td>
+              <td>5.000000</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>-5.000000</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>-2.639320</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>-1.180340</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>-0.278640</td>
+              <td>1.180340</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>-0.278640</td>
+              <td>0.623059</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          With more iterations, the interval converges to \(\approx 0.3948955\).
+          Thus, we have the closest point \((0.3948955, f(0.3948955)) =
+          (0.3948955, 6.0944)\) and the distance \(d \approx 1.7730\).
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/golden-oth.png"
+            alt="Golden Oth"
+            style="width: 48%; height: auto"
+          />
+        </div>
+
+        <hr />
+
+        <h4>Explore non-polynomial functions</h4>
+
+        <p>
+          We will use the same exponential function as before and apply the
+          Golden Section Search method.
+        </p>
+
+        <p>
+          Recall that we have \(f(x) = 2^x + 2\) and the point \((2, 3)\), using
+          the same initial interval \([-5, 5]\), we get the following
+          iterations:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Iteration</th>
+              <th>\(a\)</th>
+              <th>\(b\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>-5.000000</td>
+              <td>5.000000</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>-1.180340</td>
+              <td>5.000000</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>-1.180340</td>
+              <td>2.639320</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>0.278640</td>
+              <td>2.639320</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>0.278640</td>
+              <td>1.737621</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>0.278640</td>
+              <td>1.180340</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          With more iterations, the interval converges to \(\approx 0.8941181\).
+          Thus, we have the closest point \((0.8941181, f(0.8941181)) =
+          (0.8941181, 3.8585)\) and the distance \(d \approx 1.4000\).
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/golden-exp.png"
+            alt="Golden Exp"
+            style="width: 48%; height: auto"
+          />
+        </div>
+
+        <hr />
+
+        <h4>Summary of Results</h4>
+
+        <p>
+          The Golden Section Search successfully found the shortest distance
+          from the given point to the parabola. We also demonstrated that the
+          same numerical approach can be applied to other functions, including
+          nonpolynomial functions.
+        </p>
       </section>
 
-      <section>
-        <h2>Additional Functions</h2>
-
-        <p>
-          The numerical methods were also tested on non-polynomial functions,
-          including exponential, logarithmic, and radical functions.
-        </p>
-
-        <!-- Add additional results and plots here -->
-      </section>
+      <h2>Part 2: Fitting to an equation</h2>
 
       <section>
-        <h2>Part Two: Fitting to an Equation</h2>
-
-        <h3>Given Data</h3>
-
-        <p>The following points are used to fit a line and a parabola:</p>
+        <h3>Analytical method</h3>
 
         <p>
-          <strong> (0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5) </strong>
+          Given the points, \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
+          to fit it to a line and parabola by minimizing the min squared error.
         </p>
 
-        <h3>Line Fit</h3>
+        <hr />
+
+        <h4>Fit to line</h4>
 
         <p>
-          We fit a line of the form
-          <strong>y = c<sub>0</sub> + c<sub>1</sub>x</strong>
-          by minimizing the mean squared error.
+          We have the equation of a line \(y = c_0 + c_1x\). For each point
+          \((x_i, y_i)\), we have the squared error is \([y_i-(c_0+c_1x_i)]^2\).
+          Thus, to fit a line with min squared error, we want to minimize the
+          following error:
         </p>
 
-        <!-- Add analytical solution, numerical solution, and plot -->
+        <p class="formula">\(E(c_0, c_1)=\sum_{i=1}^{n} (y_i-c_0-c_1x_i)^2\)</p>
 
-        <h3>Parabola Fit</h3>
+        <p>We get the following partial derivatives:</p>
 
-        <p>
-          We fit a parabola of the form
-          <strong>
-            y = c<sub>0</sub> + c<sub>1</sub>x + c<sub>2</sub>x<sup>2</sup>
-          </strong>
-          by minimizing the mean squared error.
+        <p class="formula">
+          \(\frac{\partial E}{\partial c_0}=-2\sum_{i=1}^{n} (y_i-c_0-c_1x_i)\)
         </p>
 
-        <!-- Add analytical solution, numerical solution, and plot -->
+        <p class="formula">
+          \(\frac{\partial E}{\partial c_1}=-2\sum_{i=1}^{n} x_i
+          (y_i-c_0-c_1x_i)\)
+        </p>
+
+        <p>Subbing in the points for \(c_0\):</p>
+
+        <p class="formula">
+          \[ \begin{aligned} \frac{\partial E}{\partial c_0} &= -2[ (0.5-c_0)
+          +(3.5-c_0-2c_1) +(1.5-c_0-c_1) +(7.5-c_0-3c_1) ] \\ &=-2[13-4c_0-6c_1]
+          \end{aligned} \]
+        </p>
+
+        <p>Setting the derivative to 0, we have \(4c_0 + 6c_1 = 13\)</p>
+
+        <p>Similarly, for \(c_1\):</p>
+
+        <p class="formula">
+          \[ \begin{aligned} \frac{\partial E}{\partial c_1} &= -2[ 0(0.5-c_0)
+          +2(3.5-c_0-2c_1) +1(1.5-c_0-c_1) +3(7.5-c_0-3c_1) ] \\
+          &=-2[25.5-6c_0-14c_1] \end{aligned} \]
+        </p>
+
+        <p>Setting the derivative to 0, we have \(6c_0+14c_1=25.5\).</p>
+
+        <p>Since \(4c_0 + 6c_1 = 13\), then \(c_0 = \frac{13 - 6c_1}{4}\).</p>
+
+        <p>Using substitution, we have</p>
+
+        <p class="formula">\(6(\frac{13 - 6c_1}{4}) + 14c_1 = 25.5\)</p>
+
+        <p>Solving this, gives us \(c_1 = 1.2\)</p>
+
+        <p>Substitute back, we have</p>
+
+        <p class="formula">\(4c_0 + 6(1.2) = 13\)</p>
+
+        <p>Thus, \(c_0 = 1.45\)</p>
+
+        <p>Therefore, we have the line \(y=1.45+1.2x\)</p>
       </section>
     </main>
   </body>
