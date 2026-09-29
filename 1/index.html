@@ -1171,9 +1171,45 @@
         <h4>Fit to line</h4>
 
         <p>
-          Given the points \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
-          to fit them to a line \(y = c_0 + c_1x\) using the Newton-Raphson
-          multivariate method.
+          Given the points $(0, 0.5), (1, 1.5), (2, 3.5), (3, 7.5)$, we want to
+          fit them to a line $y = c_0 + c_1 x$ using the multidimensional
+          Newton-Raphson method to minimize the squared error $E(c_0, c_1) =
+          \sum_{i=1}^{4}(y_i - c_0 - c_1 x_i)^2$.
+        </p>
+
+        <p>Substituting the points into the squared error gives:</p>
+        <p class="formula">
+          $E(c_0, c_1) = (0.5 - c_0)^2 + (1.5 - c_0 - c_1)^2 + (3.5 - c_0 -
+          2c_1)^2 + (7.5 - c_0 - 3c_1)^2$
+        </p>
+
+        <p>The first derivatives give the gradient $\nabla E$:</p>
+        <p class="formula">
+          $\dfrac{\partial E}{\partial c_0} = 8c_0 + 12c_1 - 26$
+        </p>
+        <p class="formula">
+          $\dfrac{\partial E}{\partial c_1} = 12c_0 + 28c_1 - 62$
+        </p>
+
+        <p>The second derivatives give:</p>
+        <p class="formula">
+          $\dfrac{\partial^2 E}{\partial c_0^2} = 8, \quad$ $\dfrac{\partial^2
+          E}{\partial c_0\,\partial c_1} = 12, \quad$ $\dfrac{\partial^2
+          E}{\partial c_1\,\partial c_0} = 12, \quad$ $\dfrac{\partial^2
+          E}{\partial c_1^2} = 28$
+        </p>
+
+        <p>
+          Thus the Hessian of $E$, which is the Jacobian of $\nabla E$, is
+          $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 \\ 12 &amp; 28 \end{bmatrix}$
+          and its inverse is $\mathbf{J}^{-1} = \begin{bmatrix} 0.35 &amp; -0.15
+          \\ -0.15 &amp; 0.1 \end{bmatrix}$.
+        </p>
+
+        <p>
+          Initialize with $\mathbf{c}_0 = (0, 0)$ and $\delta = 0.5$. Then
+          $\nabla E(\mathbf{c}_0) = \begin{bmatrix} 8(0) + 12(0) - 26 \\ 12(0) +
+          28(0) - 62 \end{bmatrix} = \begin{bmatrix} -26 \\ -62 \end{bmatrix}$.
         </p>
       </section>
     </main>
