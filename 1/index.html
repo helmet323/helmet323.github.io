@@ -1011,98 +1011,169 @@
       <section>
         <h3>Analytical method</h3>
 
-        <p>
-          Given the points, \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
-          to fit it to a line and parabola by minimizing the min squared error.
-        </p>
-
         <hr />
 
         <h4>Fit to line</h4>
 
         <p>
-          We have the equation of a line \(y = c_0 + c_1x\). For each point
-          \((x_i, y_i)\), we have the squared error \([y_i-(c_0+c_1x_i)]^2\).
-          Thus, to fit a line with min squared error, we want to minimize the
-          following error:
+          Given the points \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
+          to fit them to a line \(y = c_0 + c_1x\). For each point \((x_i,
+          y_i)\), we have the squared error \([y_i-(c_0+c_1x_i)]^2\). Thus, we
+          want to minimize the following error:
         </p>
 
         <p class="formula">\(E(c_0, c_1)=\sum_{i=1}^{n} (y_i-c_0-c_1x_i)^2\)</p>
 
-        <p>We get the following partial derivatives:</p>
+        <p>Subbing in the points, we have</p>
 
         <p class="formula">
-          \(\frac{\partial E}{\partial c_0}=-2\sum_{i=1}^{n} (y_i-c_0-c_1x_i)\)
+          \(E(c_0,c_1) = (0.5-c_0)^2 + (3.5-c_0-2c_1)^2 + (1.5-c_0-c_1)^2 +
+          (7.5-c_0-3c_1)^2\)
+        </p>
+
+        <p>
+          Taking the partial derivatives and setting them equal to zero, we have
         </p>
 
         <p class="formula">
-          \(\frac{\partial E}{\partial c_1}=-2\sum_{i=1}^{n} x_i
-          (y_i-c_0-c_1x_i)\)
+          \( \begin{aligned} \frac{\partial E}{\partial c_0} &= -2(0.5-c_0)\\
+          &-2(3.5-c_0-2c_1)\\ &-2(1.5-c_0-c_1)\\ &-2(7.5-c_0-3c_1) =
+          0\end{aligned} \)
         </p>
-
-        <p>Subbing in the points for \(c_0\):</p>
 
         <p class="formula">
-          \[ \begin{aligned} \frac{\partial E}{\partial c_0} &= -2[ (0.5-c_0)
-          +(3.5-c_0-2c_1) +(1.5-c_0-c_1) +(7.5-c_0-3c_1) ] \\ &=-2[13-4c_0-6c_1]
-          \end{aligned} \]
+          \( \begin{aligned} \frac{\partial E}{\partial c_1}
+          &=-4(3.5-c_0-2c_1)\\ &-2(1.5-c_0-c_1)\\ &-6(7.5-c_0-3c_1) = 0
+          \end{aligned} \)
         </p>
 
-        <p>Setting the derivative to 0, we have \(4c_0 + 6c_1 = 13\)</p>
-
-        <p>Similarly, for \(c_1\):</p>
+        <p>Simplifying, we get the following system of linear equations:</p>
 
         <p class="formula">
-          \[ \begin{aligned} \frac{\partial E}{\partial c_1} &= -2[ 0(0.5-c_0)
-          +2(3.5-c_0-2c_1) +1(1.5-c_0-c_1) +3(7.5-c_0-3c_1) ] \\
-          &=-2[25.5-6c_0-14c_1] \end{aligned} \]
+          \( \begin{aligned} 4c_0+6c_1 &= 13\\ 6c_0+14c_1 &= 31 \end{aligned} \)
         </p>
 
-        <p>Setting the derivative to 0, we have \(6c_0+14c_1=25.5\).</p>
+        <p>We can write this system in matrix form as</p>
 
-        <p>Since \(4c_0 + 6c_1 = 13\), then \(c_0 = \frac{13 - 6c_1}{4}\).</p>
+        <p class="formula">
+          \( \begin{bmatrix} 4 & 6\\ 6 & 14 \end{bmatrix} \begin{bmatrix} c_0\\
+          c_1 \end{bmatrix} = \begin{bmatrix} 13\\ 31 \end{bmatrix} \)
+        </p>
 
-        <p>Using substitution, we have</p>
+        <p>Solving this system gives</p>
 
-        <p class="formula">\(6(\frac{13 - 6c_1}{4}) + 14c_1 = 25.5\)</p>
+        <p class="formula">\( c_0=-0.2,\qquad c_1=2.3 \)</p>
 
-        <p>Solving this, gives us \(c_1 = 1.2\)</p>
+        <p>Therefore, we have the line \(y=-0.2+2.3x\)</p>
 
-        <p>Substitute back, we have</p>
-
-        <p class="formula">\(4c_0 + 6(1.2) = 13\)</p>
-
-        <p>Thus, \(c_0 = 1.45\)</p>
-
-        <p>Therefore, we have the line \(y=1.45+1.2x\)</p>
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/line_fit.png"
+            alt="Fitting to a line"
+            style="width: 48%; height: auto"
+          />
+        </div>
 
         <hr />
 
         <h4>Fit to quadratic</h4>
 
         <p>
-          We have the equation of a quadratic \(y = c_0 + c_1x + c_2x^2\). For
-          each point \((x_i,y_i)\), we have the squared error \([y_i - (c_0 +
-          c_1x_i + c_2x_i^2)]^2\). Thus we minimize the following error:
+          Given the points \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
+          to fit them to a quadratic \(y = c_0 + c_1x + c_2x^2\). For each point
+          \((x_i,y_i)\), we have the squared error \([y_i - (c_0 + c_1x_i +
+          c_2x_i^2)]^2\). Thus, we minimize the following error:
         </p>
 
         <p class="formula">
-          \(E(c_0,c_1,c_2) = \sum_{i=1}{n}(y_i - c_0 - c_1x - c_2x^2)^2\)
+          \( E(c_0,c_1,c_2) = \sum_{i=1}^{n}(y_i-c_0-c_1x_i-c_2x_i^2)^2 \)
         </p>
 
         <p>Subbing in the points, we have</p>
 
         <p class="formula">
-          \(E(c_0,c_1,c_2) = (0.5 - c_0)^2 + (3.5 - c_0 - c_1 - c_2)^2 + (1.5 -
-          c_0 - 2c_1 - 4c_2)^2\)
+          \( \begin{aligned} E(c_0,c_1,c_2) = &(0.5-c_0)^2 \\
+          &+(3.5-c_0-2c_1-4c_2)^2 \\ &+(1.5-c_0-c_1-c_2)^2 \\
+          &+(7.5-c_0-3c_1-9c_2)^2 \end{aligned}\)
         </p>
 
-        <p>Taking the partial derivatives, we have</p>
+        <p>
+          Taking the partial derivatives and setting them equal to zero, we have
+        </p>
 
         <p class="formula">
-          \[ \begin{aligned} \frac{\partial E}{\partial c_0} &= -2(0.5-c_0)
-          -2(3.5-c_0-c_1-c_2) -2(1.5-c_0-2c_1-4c_2) \\ &= 5.5-3c_0-3c_1-5c_2
-          \end{aligned} \]
+          \( \begin{aligned} \frac{\partial E}{\partial c_0} = &-2(0.5-c_0)\\
+          &-2(3.5-c_0-2c_1-4c_2)\\ &-2(1.5-c_0-c_1-c_2)\\
+          &-2(7.5-c_0-3c_1-9c_2)=0 \end{aligned} \)
+        </p>
+
+        <p class="formula">
+          \( \begin{aligned} \frac{\partial E}{\partial c_1} =
+          &-4(3.5-c_0-2c_1-4c_2)\\ &-2(1.5-c_0-c_1-c_2)\\
+          &-6(7.5-c_0-3c_1-9c_2)=0 \end{aligned} \)
+        </p>
+
+        <p class="formula">
+          \( \begin{aligned} \frac{\partial E}{\partial c_2} =
+          &-8(3.5-c_0-2c_1-4c_2)\\ &-2(1.5-c_0-c_1-c_2)\\
+          &-18(7.5-c_0-3c_1-9c_2)=0 \end{aligned} \)
+        </p>
+
+        <p>Simplifying, we get the following system of linear equations:</p>
+
+        <p class="formula">
+          \( \begin{aligned} 4c_0+6c_1+14c_2 &= 13\\ 6c_0+14c_1+36c_2 &= 31\\
+          14c_0+36c_1+98c_2 &= 83 \end{aligned} \)
+        </p>
+
+        <p>We can write this system in matrix form as</p>
+
+        <p class="formula">
+          \( \begin{bmatrix} 4 & 6 & 14\\ 6 & 14 & 36\\ 14 & 36 & 98
+          \end{bmatrix} \begin{bmatrix} c_0\\ c_1\\ c_2 \end{bmatrix} =
+          \begin{bmatrix} 13\\ 31\\ 83 \end{bmatrix} \)
+        </p>
+
+        <p>Solving this system gives</p>
+
+        <p class="formula">\( c_0=0.55,\qquad c_1=0.05,\qquad c_2=0.75 \)</p>
+
+        <p>Therefore, we have the quadratic \( y=0.55+0.05x+0.75x^2 \)</p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/quadratic_fit.png"
+            alt="Fitting to a quadratic"
+            style="width: 48%; height: auto"
+          />
+        </div>
+      </section>
+
+      <section>
+        <h3>Newton-Raphson multivariate</h3>
+
+        <hr />
+
+        <h4>Fit to line</h4>
+
+        <p>
+          Given the points \((0, 0.5), (2, 3.5), (1, 1.5), (3, 7.5)\), we want
+          to fit them to a line \(y = c_0 + c_1x\) using the Newton-Raphson
+          multivariate method.
         </p>
       </section>
     </main>
