@@ -997,6 +997,11 @@
 
         <p class="formula">\(E(c_0, c_1)=\sum_{i=1}^{n} (y_i-c_0-c_1x_i)^2\)</p>
 
+        <p>
+          Dividing $E$ by $n$ gives the MSE, but does not change the minimizer,
+          so we minimize $E$ and divide by $n$ at the end
+        </p>
+
         <p>Subbing in the points, we have</p>
 
         <p class="formula">
@@ -1037,7 +1042,10 @@
 
         <p class="formula">\( c_0=-0.2,\qquad c_1=2.3 \)</p>
 
-        <p>Therefore, we have the line \(y=-0.2+2.3x\)</p>
+        <p>
+          Therefore, we have the line \(y=-0.2+2.3x\) with the $MSE =
+          \frac{1}{n}E(c_0,c_1) = \frac{2.3}{4} = 0.575$
+        </p>
 
         <div
           style="
@@ -1067,6 +1075,11 @@
 
         <p class="formula">
           \( E(c_0,c_1,c_2) = \sum_{i=1}^{n}(y_i-c_0-c_1x_i-c_2x_i^2)^2 \)
+        </p>
+
+        <p>
+          Dividing $E$ by $n$ gives the MSE, but does not change the minimizer,
+          so we minimize $E$ and divide by $n$ at the end.
         </p>
 
         <p>Subbing in the points, we have</p>
@@ -1118,7 +1131,10 @@
 
         <p class="formula">\( c_0=0.55,\qquad c_1=0.05,\qquad c_2=0.75 \)</p>
 
-        <p>Therefore, we have the quadratic \( y=0.55+0.05x+0.75x^2 \)</p>
+        <p>
+          Therefore, we have the quadratic \( y=0.55+0.05x+0.75x^2 \) with the
+          $MSE = \frac{1}{n}E(c_0,c_1,c_2) = \frac{0.05}{4} = 0.0125$
+        </p>
 
         <div
           style="
@@ -1140,7 +1156,7 @@
         <h3>Newton-Raphson multivariate</h3>
         <p>
           We have computed the derivatives and use code for the iterations
-          <a href="fitting-equation.html">here</a>
+          <a href="fitting-equation.html">here</a>.
         </p>
         <hr />
 
@@ -1153,13 +1169,20 @@
           \sum_{i=1}^{n}(y_i - c_0 - c_1 x_i)^2$.
         </p>
 
+        <p>
+          Dividing $E$ by $n$ gives the MSE but does not change the minimizer,
+          so we minimize $E$ and divide by $n$ at the end.
+        </p>
+
         <p>Substituting the points into the squared error gives:</p>
         <p class="formula">
           $E(c_0, c_1) = (0.5 - c_0)^2 + (1.5 - c_0 - c_1)^2 + (3.5 - c_0 -
           2c_1)^2 + (7.5 - c_0 - 3c_1)^2$
         </p>
 
-        <p>The first derivative $\nabla E$:</p>
+        <p>
+          We apply Newton-Raphson to the gradient $\nabla E$, with components:
+        </p>
         <p class="formula">
           $\dfrac{\partial E}{\partial c_0} = 8c_0 + 12c_1 - 26$
         </p>
@@ -1167,24 +1190,31 @@
           $\dfrac{\partial E}{\partial c_1} = 12c_0 + 28c_1 - 62$
         </p>
 
-        <p>The second derivative gives:</p>
+        <p>
+          The Jacobian of the gradient $\nabla E$ has entries $J_{ij} =
+          \dfrac{\partial}{\partial c_j}\left(\dfrac{\partial E}{\partial
+          c_i}\right)$:
+        </p>
         <p class="formula">
-          $\dfrac{\partial^2 E}{\partial c_0^2} = 8, \quad$ $\dfrac{\partial^2
-          E}{\partial c_0\,\partial c_1} = 12, \quad$ $\dfrac{\partial^2
-          E}{\partial c_1\,\partial c_0} = 12, \quad$ $\dfrac{\partial^2
-          E}{\partial c_1^2} = 28$
+          $J_{00} = 8, \quad$ $J_{01} = 12, \quad$ $J_{10} = 12, \quad$ $J_{11}
+          = 28$
         </p>
 
         <p>
-          Thus the Hessian $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 \\ 12 &amp;
-          28 \end{bmatrix}$ and its inverse is $\mathbf{J}^{-1} =
-          \begin{bmatrix} 0.35 &amp; -0.15 \\ -0.15 &amp; 0.1 \end{bmatrix}$
+          Thus $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 \\ 12 &amp; 28
+          \end{bmatrix}$ and its inverse is $\mathbf{J}^{-1} = \begin{bmatrix}
+          0.35 &amp; -0.15 \\ -0.15 &amp; 0.1 \end{bmatrix}$.
         </p>
 
         <p>
-          For Newton-Raphson method, we initialize with $c_0 = (0, 0)$ and
-          $\delta = 0.5$. Then, we iterate with $c_{n+1} = c_n - \delta
-          \mathbf{J}^{-1} \nabla E(c_n)$ with the following iterations:
+          We initialize with $\mathbf{c}^{(0)} = (0, 0)$ and use a step size
+          $\delta = 0.5$, iterating with $\mathbf{c}^{(n+1)} = \mathbf{c}^{(n)}
+          - \delta\,\mathbf{J}^{-1}\nabla E(\mathbf{c}^{(n)})$. Since $E$ is
+          quadratic, a full step ($\delta = 1$) would reach $\mathbf{c}^*$ in
+          one iteration, so we use a smaller step to show the convergence. For
+          non-quadratic functions, the Newton step is only approximate, so more
+          iterations are usually needed and $\delta$ may need to be adjusted
+          along the way. This gives:
         </p>
 
         <table>
@@ -1193,7 +1223,8 @@
               <th>$n$</th>
               <th>$c_0$</th>
               <th>$c_1$</th>
-              <th>$\nabla E(\mathbf{c}_n)$</th>
+              <th>$\nabla E(\mathbf{c}^{(n)})$</th>
+              <th>MSE</th>
             </tr>
           </thead>
           <tbody>
@@ -1202,43 +1233,50 @@
               <td>0</td>
               <td>0</td>
               <td>$(-26,\ -62)$</td>
+              <td>17.7500</td>
             </tr>
             <tr>
               <td>1</td>
               <td>-0.1</td>
               <td>1.15</td>
               <td>$(-13,\ -31)$</td>
+              <td>4.8688</td>
             </tr>
             <tr>
               <td>2</td>
               <td>-0.15</td>
               <td>1.725</td>
               <td>$(-6.5,\ -15.5)$</td>
+              <td>1.6484</td>
             </tr>
             <tr>
               <td>3</td>
               <td>-0.175</td>
               <td>2.0125</td>
               <td>$(-3.25,\ -7.75)$</td>
+              <td>0.8434</td>
             </tr>
             <tr>
               <td>4</td>
               <td>-0.1875</td>
               <td>2.15625</td>
               <td>$(-1.625,\ -3.875)$</td>
+              <td>0.6421</td>
             </tr>
             <tr>
               <td>5</td>
               <td>-0.19375</td>
               <td>2.228125</td>
               <td>$(-0.8125,\ -1.9375)$</td>
+              <td>0.5918</td>
             </tr>
           </tbody>
         </table>
 
         <p>
-          The iterations approach $\mathbf{c}^* = (-0.2,\ 2.3)$ and the fitted
-          line is $y = -0.2 + 2.3x$.
+          The iterations approach $\mathbf{c}^* = (-0.2,\ 2.3)$, so the fitted
+          line is $y = -0.2 + 2.3x$. At this minimum $E(\mathbf{c}^*) = 2.3$, so
+          the MSE is $2.3 / 4 = 0.575$.
         </p>
 
         <div
@@ -1274,7 +1312,9 @@
           c_0 - 2c_1 - 4c_2)^2 + (7.5 - c_0 - 3c_1 - 9c_2)^2$
         </p>
 
-        <p>The first derivative $\nabla E$:</p>
+        <p>
+          We apply Newton-Raphson to the gradient $\nabla E$, with components:
+        </p>
         <p class="formula">
           $\dfrac{\partial E}{\partial c_0} = 8c_0 + 12c_1 + 28c_2 - 26$
         </p>
@@ -1285,31 +1325,32 @@
           $\dfrac{\partial E}{\partial c_2} = 28c_0 + 72c_1 + 196c_2 - 166$
         </p>
 
-        <p>The second derivative gives (the mixed partials are symmetric):</p>
-        <p class="formula">
-          $\dfrac{\partial^2 E}{\partial c_0^2} = 8, \quad$ $\dfrac{\partial^2
-          E}{\partial c_0\,\partial c_1} = 12, \quad$ $\dfrac{\partial^2
-          E}{\partial c_0\,\partial c_2} = 28$
+        <p>
+          The Jacobian of the gradient $\nabla E$ has entries $J_{ij} =
+          \dfrac{\partial}{\partial c_j}\left(\dfrac{\partial E}{\partial
+          c_i}\right)$ (symmetric, so $J_{ij} = J_{ji}$):
         </p>
         <p class="formula">
-          $\dfrac{\partial^2 E}{\partial c_1^2} = 28, \quad$ $\dfrac{\partial^2
-          E}{\partial c_1\,\partial c_2} = 72, \quad$ $\dfrac{\partial^2
-          E}{\partial c_2^2} = 196$
+          $J_{00} = 8, \quad$ $J_{01} = 12, \quad$ $J_{02} = 28$
+        </p>
+        <p class="formula">
+          $J_{11} = 28, \quad$ $J_{12} = 72, \quad$ $J_{22} = 196$
         </p>
 
         <p>
-          Thus the Hessian $\mathbf{J} = \begin{bmatrix} 8 & 12 & 28 \\ 12 & 28
-          & 72 \\ 28 & 72 & 196 \end{bmatrix}$ and its inverse is
-          $\mathbf{J}^{-1} = \begin{bmatrix} \frac{19}{40} & -\frac{21}{40} &
-          \frac{1}{8} \\ -\frac{21}{40} & \frac{49}{40} & -\frac{3}{8} \\
-          \frac{1}{8} & -\frac{3}{8} & \frac{1}{8} \end{bmatrix}$
+          Thus $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 &amp; 28 \\ 12 &amp; 28
+          &amp; 72 \\ 28 &amp; 72 &amp; 196 \end{bmatrix}$ and its inverse is
+          $\mathbf{J}^{-1} = \begin{bmatrix} \frac{19}{40} &amp; -\frac{21}{40}
+          &amp; \frac{1}{8} \\ -\frac{21}{40} &amp; \frac{49}{40} &amp;
+          -\frac{3}{8} \\ \frac{1}{8} &amp; -\frac{3}{8} &amp; \frac{1}{8}
+          \end{bmatrix}$.
         </p>
 
         <p>
-          For Newton-Raphson method, we initialize with $(c_0, c_1, c_2) = (0,
-          0, 0)$ and $\delta = 0.5$. Then, we iterate with $\mathbf{c}_{n+1} =
-          \mathbf{c}_n - \delta\,\mathbf{J}^{-1}\nabla E(\mathbf{c}_n)$ with the
-          following iterations:
+          Again, we initialize with $\mathbf{c}^{(0)} = (0, 0, 0)$ and use a
+          step size $\delta = 0.5$, iterating with $\mathbf{c}^{(n+1)} =
+          \mathbf{c}^{(n)} - \delta\,\mathbf{J}^{-1}\nabla E(\mathbf{c}^{(n)})$,
+          which gives:
         </p>
 
         <table>
@@ -1319,7 +1360,8 @@
               <th>$c_0$</th>
               <th>$c_1$</th>
               <th>$c_2$</th>
-              <th>$\nabla E(\mathbf{c}_n)$</th>
+              <th>$\nabla E(\mathbf{c}^{(n)})$</th>
+              <th>MSE</th>
             </tr>
           </thead>
           <tbody>
@@ -1329,6 +1371,7 @@
               <td>0</td>
               <td>0</td>
               <td>$(-26,\ -62,\ -166)$</td>
+              <td>17.7500</td>
             </tr>
             <tr>
               <td>1</td>
@@ -1336,6 +1379,7 @@
               <td>0.025</td>
               <td>0.375</td>
               <td>$(-13,\ -31,\ -83)$</td>
+              <td>4.4469</td>
             </tr>
             <tr>
               <td>2</td>
@@ -1343,6 +1387,7 @@
               <td>0.0375</td>
               <td>0.5625</td>
               <td>$(-6.5,\ -15.5,\ -41.5)$</td>
+              <td>1.1211</td>
             </tr>
             <tr>
               <td>3</td>
@@ -1350,6 +1395,7 @@
               <td>0.04375</td>
               <td>0.65625</td>
               <td>$(-3.25,\ -7.75,\ -20.75)$</td>
+              <td>0.2896</td>
             </tr>
             <tr>
               <td>4</td>
@@ -1357,6 +1403,7 @@
               <td>0.046875</td>
               <td>0.703125</td>
               <td>$(-1.625,\ -3.875,\ -10.375)$</td>
+              <td>0.0818</td>
             </tr>
             <tr>
               <td>5</td>
@@ -1364,13 +1411,15 @@
               <td>0.0484375</td>
               <td>0.7265625</td>
               <td>$(-0.8125,\ -1.9375,\ -5.1875)$</td>
+              <td>0.0298</td>
             </tr>
           </tbody>
         </table>
 
         <p>
-          With more iterations, it approaches $\mathbf{c}^* = (0.55,\ 0.05,\
-          0.75)$ and the fitted quadratic is $y = 0.55 + 0.05x + 0.75x^2$.
+          The iterations approach $\mathbf{c}^* = (0.55,\ 0.05,\ 0.75)$, so the
+          fitted quadratic is $y = 0.55 + 0.05x + 0.75x^2$. At this minimum
+          $E(\mathbf{c}^*) = 0.05$, so the MSE is $0.05 / 4 = 0.0125$.
         </p>
 
         <div
