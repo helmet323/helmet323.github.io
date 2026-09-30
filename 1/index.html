@@ -164,7 +164,7 @@
           iterating.
         </p>
 
-        <p>Recall that the squared distance function is:</p>
+        <p>Again, we use the squared distance function:</p>
 
         <p class="formula">\[ D(x) = (x - x_0)^2 + (f(x) - y_0)^2 \]</p>
 
@@ -719,40 +719,13 @@
               <td>25.047613</td>
               <td>25.047613</td>
             </tr>
-            <tr>
-              <td>8</td>
-              <td>-0.065778</td>
-              <td>0.065778</td>
-              <td>0.147084</td>
-              <td>0.278640</td>
-              <td>25.047613</td>
-              <td>25.238440</td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>-0.065778</td>
-              <td>0.015528</td>
-              <td>0.065778</td>
-              <td>0.147084</td>
-              <td>25.002652</td>
-              <td>25.047613</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>-0.065778</td>
-              <td>-0.015528</td>
-              <td>0.015528</td>
-              <td>0.065778</td>
-              <td>25.002652</td>
-              <td>25.002652</td>
-            </tr>
           </tbody>
         </table>
 
         <p>
-          Looking at the first 10 iterations, the interval \((a, b)\) is
-          converging to \(0\). Thus, we have the closest point \((0, f(0)) = (0,
-          5)\) and the distance \(d = 5\)
+          Looking at the iterations, the interval \((a, b)\) is converging to
+          \(0\). Thus, we have the closest point \((0, f(0)) = (0, 5)\) and the
+          distance \(d = 5\)
         </p>
       </section>
 
@@ -1174,7 +1147,7 @@
           Given the points $(0, 0.5), (1, 1.5), (2, 3.5), (3, 7.5)$, we want to
           fit them to a line $y = c_0 + c_1 x$ using the multidimensional
           Newton-Raphson method to minimize the squared error $E(c_0, c_1) =
-          \sum_{i=1}^{4}(y_i - c_0 - c_1 x_i)^2$.
+          \sum_{i=1}^{n}(y_i - c_0 - c_1 x_i)^2$.
         </p>
 
         <p>Substituting the points into the squared error gives:</p>
@@ -1183,7 +1156,7 @@
           2c_1)^2 + (7.5 - c_0 - 3c_1)^2$
         </p>
 
-        <p>The first derivatives give the gradient $\nabla E$:</p>
+        <p>The first derivative $\nabla E$:</p>
         <p class="formula">
           $\dfrac{\partial E}{\partial c_0} = 8c_0 + 12c_1 - 26$
         </p>
@@ -1191,7 +1164,7 @@
           $\dfrac{\partial E}{\partial c_1} = 12c_0 + 28c_1 - 62$
         </p>
 
-        <p>The second derivatives give:</p>
+        <p>The second derivative gives:</p>
         <p class="formula">
           $\dfrac{\partial^2 E}{\partial c_0^2} = 8, \quad$ $\dfrac{\partial^2
           E}{\partial c_0\,\partial c_1} = 12, \quad$ $\dfrac{\partial^2
@@ -1200,17 +1173,217 @@
         </p>
 
         <p>
-          Thus the Hessian of $E$, which is the Jacobian of $\nabla E$, is
-          $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 \\ 12 &amp; 28 \end{bmatrix}$
-          and its inverse is $\mathbf{J}^{-1} = \begin{bmatrix} 0.35 &amp; -0.15
-          \\ -0.15 &amp; 0.1 \end{bmatrix}$.
+          Thus the Hessian $\mathbf{J} = \begin{bmatrix} 8 &amp; 12 \\ 12 &amp;
+          28 \end{bmatrix}$ and its inverse is $\mathbf{J}^{-1} =
+          \begin{bmatrix} 0.35 &amp; -0.15 \\ -0.15 &amp; 0.1 \end{bmatrix}$
         </p>
 
         <p>
-          Initialize with $\mathbf{c}_0 = (0, 0)$ and $\delta = 0.5$. Then
-          $\nabla E(\mathbf{c}_0) = \begin{bmatrix} 8(0) + 12(0) - 26 \\ 12(0) +
-          28(0) - 62 \end{bmatrix} = \begin{bmatrix} -26 \\ -62 \end{bmatrix}$.
+          For Newton-Raphson method, we initialize with $c_0 = (0, 0)$ and
+          $\delta = 0.5$. Then, we iterate with $c_{n+1} = c_n - \delta
+          \mathbf{J}^{-1} \nabla E(c_n)$ with the following iterations:
         </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>$n$</th>
+              <th>$c_0$</th>
+              <th>$c_1$</th>
+              <th>$\nabla E(\mathbf{c}_n)$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>$(-26,\ -62)$</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>-0.1</td>
+              <td>1.15</td>
+              <td>$(-13,\ -31)$</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>-0.15</td>
+              <td>1.725</td>
+              <td>$(-6.5,\ -15.5)$</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>-0.175</td>
+              <td>2.0125</td>
+              <td>$(-3.25,\ -7.75)$</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>-0.1875</td>
+              <td>2.15625</td>
+              <td>$(-1.625,\ -3.875)$</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>-0.19375</td>
+              <td>2.228125</td>
+              <td>$(-0.8125,\ -1.9375)$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          The iterations approach $\mathbf{c}^* = (-0.2,\ 2.3)$ and the fitted
+          line is $y = -0.2 + 2.3x$.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/line_fit_newton.png"
+            alt="Fitting to a line"
+            style="width: 48%; height: auto"
+          />
+        </div>
+
+        <hr />
+
+        <h4>Fit to quadratic</h4>
+
+        <p>
+          Given the points $(0, 0.5), (1, 1.5), (2, 3.5), (3, 7.5)$, we want to
+          fit them to a quadratic $y = c_0 + c_1 x + c_2 x^2$ using the
+          multidimensional Newton-Raphson method to minimize the squared error
+          $E(c_0, c_1, c_2) = \sum_{i=1}^{4}(y_i - c_0 - c_1 x_i - c_2
+          x_i^2)^2$.
+        </p>
+
+        <p>Substituting the points into the squared error gives:</p>
+        <p class="formula">
+          $E(c_0, c_1, c_2) = (0.5 - c_0)^2 + (1.5 - c_0 - c_1 - c_2)^2 + (3.5 -
+          c_0 - 2c_1 - 4c_2)^2 + (7.5 - c_0 - 3c_1 - 9c_2)^2$
+        </p>
+
+        <p>The first derivative $\nabla E$:</p>
+        <p class="formula">
+          $\dfrac{\partial E}{\partial c_0} = 8c_0 + 12c_1 + 28c_2 - 26$
+        </p>
+        <p class="formula">
+          $\dfrac{\partial E}{\partial c_1} = 12c_0 + 28c_1 + 72c_2 - 62$
+        </p>
+        <p class="formula">
+          $\dfrac{\partial E}{\partial c_2} = 28c_0 + 72c_1 + 196c_2 - 166$
+        </p>
+
+        <p>The second derivative gives (the mixed partials are symmetric):</p>
+        <p class="formula">
+          $\dfrac{\partial^2 E}{\partial c_0^2} = 8, \quad$ $\dfrac{\partial^2
+          E}{\partial c_0\,\partial c_1} = 12, \quad$ $\dfrac{\partial^2
+          E}{\partial c_0\,\partial c_2} = 28$
+        </p>
+        <p class="formula">
+          $\dfrac{\partial^2 E}{\partial c_1^2} = 28, \quad$ $\dfrac{\partial^2
+          E}{\partial c_1\,\partial c_2} = 72, \quad$ $\dfrac{\partial^2
+          E}{\partial c_2^2} = 196$
+        </p>
+
+        <p>
+          Thus the Hessian $\mathbf{J} = \begin{bmatrix} 8 & 12 & 28 \\ 12 & 28
+          & 72 \\ 28 & 72 & 196 \end{bmatrix}$ and its inverse is
+          $\mathbf{J}^{-1} = \begin{bmatrix} \frac{19}{40} & -\frac{21}{40} &
+          \frac{1}{8} \\ -\frac{21}{40} & \frac{49}{40} & -\frac{3}{8} \\
+          \frac{1}{8} & -\frac{3}{8} & \frac{1}{8} \end{bmatrix}$
+        </p>
+
+        <p>
+          For Newton-Raphson method, we initialize with $(c_0, c_1, c_2) = (0,
+          0, 0)$ and $\delta = 0.5$. Then, we iterate with $\mathbf{c}_{n+1} =
+          \mathbf{c}_n - \delta\,\mathbf{J}^{-1}\nabla E(\mathbf{c}_n)$ with the
+          following iterations:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>$n$</th>
+              <th>$c_0$</th>
+              <th>$c_1$</th>
+              <th>$c_2$</th>
+              <th>$\nabla E(\mathbf{c}_n)$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>$(-26,\ -62,\ -166)$</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>0.275</td>
+              <td>0.025</td>
+              <td>0.375</td>
+              <td>$(-13,\ -31,\ -83)$</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>0.4125</td>
+              <td>0.0375</td>
+              <td>0.5625</td>
+              <td>$(-6.5,\ -15.5,\ -41.5)$</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>0.48125</td>
+              <td>0.04375</td>
+              <td>0.65625</td>
+              <td>$(-3.25,\ -7.75,\ -20.75)$</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>0.515625</td>
+              <td>0.046875</td>
+              <td>0.703125</td>
+              <td>$(-1.625,\ -3.875,\ -10.375)$</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>0.5328125</td>
+              <td>0.0484375</td>
+              <td>0.7265625</td>
+              <td>$(-0.8125,\ -1.9375,\ -5.1875)$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          With more iterations, it approaches $\mathbf{c}^* = (0.55,\ 0.05,\
+          0.75)$ and the fitted quadratic is $y = 0.55 + 0.05x + 0.75x^2$.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+          "
+        >
+          <img
+            src="media/quadratic_fit_newton.png"
+            alt="Fitting to a quadratic"
+            style="width: 48%; height: auto"
+          />
+        </div>
       </section>
     </main>
   </body>
