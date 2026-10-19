@@ -37,9 +37,9 @@
         <h4>Data Preparation</h4>
         <p>
           We used the first 100 data points for training and the remaining
-          points for testing. We normalized the input features using the
-          training data's mean $\mu$ and standard deviation $\sigma$ so that the
-          features were on a similar scale.
+          points for testing. We normalized the features using the training
+          data's mean $\mu$ and standard deviation $\sigma$ so that the
+          different features were on a similar scale.
         </p>
 
         $$x' = \frac{x-\mu}{\sigma}$$
@@ -48,21 +48,20 @@
 
         <h4>Polynomial Basis Functions</h4>
         <p>
-          We raised each input feature to powers up to the selected polynomial
-          degree, without combining different features. Here, $x_j$ represents
-          the $j$-th input feature, and $k$ represents the power it is raised
-          to.
+          Each feature is raised to powers up to the chosen degree $d$. Features
+          are not combined with each other.
         </p>
 
-        $$\phi_{j,k}(\mathbf{x}) = x_j^k$$
+        $$\phi_{j,k}(\mathbf{x}) = x_j^k, \qquad j = 1,\dots,p, \quad k =
+        1,\dots,d$$
 
         <p>
-          The model learns a weight for each basis function, along with a
-          separate intercept $w_0$, to make its predictions:
+          Here $j$ indexes the feature and $k$ is the power. The model learns
+          one weight per basis function, plus an intercept $w_0$:
         </p>
 
         $$\hat{y}(\mathbf{x}) = w_0 + \sum_{j=1}^{p}\sum_{k=1}^{d}
-        w_{j,k}\phi_{j,k}(\mathbf{x})$$
+        w_{j,k}\,x_j^k$$
 
         <hr />
 
@@ -83,10 +82,9 @@
         <p>
           As the polynomial degree increased, the training error decreased
           because higher-degree models can fit the training data more closely.
-          However, the testing error increased at higher degrees, suggesting
-          overfitting. Degree 1 achieved the lowest testing RMS error among the
-          models tested, indicating that the simpler model generalized better to
-          unseen data.
+          However, this often causes overfitting and does not generalize well to
+          unseen data. For this dataset, degree 1 has the lowest testing RMS
+          error among the models tested.
         </p>
 
         <div
@@ -192,21 +190,20 @@
         <h3>Single Feature Polynomial Regression</h3>
 
         <p>
-          We used the third feature, INDUS, to predict median house values using
-          polynomial regression. Again, the first 100 samples were used for
-          training, and the remaining samples were used for testing. The
-          features were normalized using the mean and standard deviation of the
-          training data.
+          We used the third feature, INDUS (proportion of non-retail business
+          acres per town), to predict median house values using polynomial
+          regression. As before, the first 100 samples were used for training
+          and the remaining samples for testing. Features were normalized using
+          the mean and standard deviation of the training data.
         </p>
 
         <p>
-          We tested polynomial degrees 1 through 7 to compare models of
-          different complexity. As shown in the table, training RMS generally
-          decreased as the degree increased, while testing RMS increased
-          significantly for higher degrees. This suggests overfitting, where
-          more complex models fit the training data better but perform poorly on
-          unseen data. From the table, we can see that degree 1 have the lowest
-          testing RMS.
+          We tested polynomial degrees 1 through 7 to compare models of varying
+          complexity. As shown in the table, training RMS generally decreased as
+          the degree increased, while testing RMS increased significantly at
+          higher degrees. This shows that the model is overfitting the training
+          data and not generalizing well to unseen data. We can see that the
+          degree 1 polynomial model has the lowest testing RMS.
         </p>
 
         <h4>RMS Results by Polynomial Degree</h4>
@@ -299,7 +296,7 @@
         $$\min_{\mathbf{w}}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2+\lambda\sum_{j=1}^{8}w_j^2$$
 
         <p>
-          To find the best regularization constant, we used 10-fold
+          To find the best regularization constant $\lambda$, we used 10-fold
           cross-validation. We split the data into 10 folds, trained on 9 folds,
           and tested on the remaining fold. We repeated this for each fold and
           averaged the validation RMS errors for each $\lambda$ value.
@@ -335,61 +332,53 @@
         <h3>Gaussian Regression</h3>
 
         <p>
-          Our goal is to predict median house values based on features
-          describing a town using Gaussian regression.
+          Our goal is to predict median house values from town-level features
+          using Gaussian regression.
         </p>
 
         <hr />
 
         <h4>Data Preparation</h4>
         <p>
-          We used the first 100 data points for training and the remaining
-          points for testing. We normalized the input features using the
-          training data's mean $\mu$ and standard deviation $\sigma$. We tested
-          models with 5, 15, 25, ..., 95 Gaussian basis functions, selecting
-          random training points as the centers.
+          The first 100 data points were used for training and the rest for
+          testing. Features were normalized using the training mean $\mu$ and
+          standard deviation $\sigma$. We tested models with 5, 15, 25, ..., 95
+          basis functions, with centers chosen at random from the training
+          points.
         </p>
-
-        $$x' = \frac{x-\mu}{\sigma}$$
 
         <hr />
 
         <h4>Gaussian Basis Functions</h4>
         <p>
-          Each Gaussian basis function measures how close an input is to a
-          selected center. Points closer to the center receive higher values,
-          while points farther away receive values closer to zero.
+          Each basis function is a bump centered at a chosen point
+          $\boldsymbol{\mu}_j$. Its value is 1 at the center and falls toward 0
+          as the input moves away.
         </p>
 
         $$\phi_j(\mathbf{x}) =
-        \exp\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_j\|^2}{2s^2}\right)$$
+        \exp\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_j\|^2}{2s^2}\right),
+        \qquad j = 1,\dots,K$$
 
         <p>
-          Here, $\boldsymbol{\mu}_j$ is the center of the $j$-th basis function,
-          and $s$ controls its width.
+          Here, $\boldsymbol{\mu}_j$ is the center, $s$ controls the width of
+          the bump, and $K$ is the number of basis functions.
         </p>
+
+        <p>
+          The model learns one weight per basis function, plus an intercept
+          $w_0$, so each center mainly influences predictions for nearby inputs:
+        </p>
+
+        $$\hat{y}(\mathbf{x}) = w_0 + \sum_{j=1}^{K} w_j\,\phi_j(\mathbf{x})$$
 
         <hr />
 
-        <h4>Fitting the Model</h4>
+        <h4>Fitting and Evaluation</h4>
         <p>
-          We transformed the input data using the Gaussian basis functions and
-          applied least squares to find the weights that minimize the training
-          error. We also included a column of ones for the intercept term and
-          did not use regularization.
-        </p>
-
-        $$\hat{y}(\mathbf{x}) = w_0 + \sum_{j=1}^{K} w_j\phi_j(\mathbf{x})$$
-
-        <hr />
-
-        <h4>Evaluation</h4>
-        <p>
-          We evaluated each model using the root mean squared (RMS) error on
-          both the training and testing data. The training error measures how
-          well the model fits the training data, while the testing error
-          measures how well it predicts unseen data. A lower RMS error means the
-          predictions are closer to the actual values.
+          The weights were found by least squares on the training data, without
+          regularization. Models were evaluated by RMS error on the training and
+          testing data.
         </p>
 
         $$\mathrm{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(\hat{y}_i-y_i)^2}$$
@@ -398,13 +387,11 @@
 
         <h4>Results</h4>
         <p>
-          As the number of basis functions increased, the training error
-          generally decreased. However, the testing error fluctuated rather than
-          steadily improving. The lowest testing RMS error was 8.4540 with 45
-          basis functions. With 95 basis functions, the training RMS error
-          dropped to 0.2858, but the testing RMS error rose sharply to 54.4899.
-          This suggests that the model with 95 basis functions overfit the
-          training data and performed poorly on unseen data.
+          Training error generally decreased as basis functions were added, but
+          testing error fluctuated. The lowest testing RMS error was 8.4540,
+          with 45 basis functions. With 95 basis functions, training RMS error
+          fell to 0.2858 while testing RMS error rose to 54.4899, which
+          indicates overfitting.
         </p>
 
         <div
@@ -429,19 +416,17 @@
         <p>
           We implemented L2-regularized Gaussian regression using the training
           points as Gaussian basis centers. The model minimizes prediction
-          errors while keeping the weights small, excluding the intercept $w_0$
-          from regularization:
+          errors while keeping the weights small:
         </p>
 
         $$\min_{\mathbf{w}}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2+\lambda\sum_{j=1}^{m}w_j^2$$
 
         <p>
-          To find the best regularization constant, we used 10-fold
+          To find the best regularization constant $\lambda$, we used 10-fold
           cross-validation. We split the first 100 data points into 10 folds,
-          trained on 9 folds (90 points), and validated on the remaining fold
-          (10 points). We normalized each fold using only its training data,
-          calculated the Gaussian bandwidth using the training points, and
-          averaged the validation RMS errors for each $\lambda$ value.
+          trained on 9 folds, and validated on the remaining fold. We repeated
+          this for each fold and averaged the validation RMS errors for each
+          $\lambda$ value.
         </p>
 
         <p>
