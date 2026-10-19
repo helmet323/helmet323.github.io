@@ -6,10 +6,7 @@
     <script>
       MathJax = {
         tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
+          inlineMath: [["$", "$"]],
         },
       };
     </script>
@@ -28,7 +25,448 @@
       <h2>Part 1: Polynomial Basis Function</h2>
 
       <section>
-        <h3>Analytical Approach</h3>
+        <h3>Polynomial Regression</h3>
+
+        <p>
+          Our goal is to predict median house values based on features
+          describing a town using polynomial regression.
+        </p>
+
+        <hr />
+
+        <h4>Data Preparation</h4>
+        <p>
+          We used the first 100 data points for training and the remaining
+          points for testing. We normalized the input features using the
+          training data's mean $\mu$ and standard deviation $\sigma$ so that the
+          features were on a similar scale.
+        </p>
+
+        $$x' = \frac{x-\mu}{\sigma}$$
+
+        <hr />
+
+        <h4>Polynomial Basis Functions</h4>
+        <p>
+          We raised each input feature to powers up to the selected polynomial
+          degree, without combining different features. Here, $x_j$ represents
+          the $j$-th input feature, and $k$ represents the power it is raised
+          to.
+        </p>
+
+        $$\phi_{j,k}(\mathbf{x}) = x_j^k$$
+
+        <p>
+          The model learns a weight for each basis function, along with a
+          separate intercept $w_0$, to make its predictions:
+        </p>
+
+        $$\hat{y}(\mathbf{x}) = w_0 + \sum_{j=1}^{p}\sum_{k=1}^{d}
+        w_{j,k}\phi_{j,k}(\mathbf{x})$$
+
+        <hr />
+
+        <h4>Evaluation</h4>
+        <p>
+          We evaluated each model using the root mean squared (RMS) error on
+          both the training and testing data. The training error measures how
+          well the model fits the training data, while the testing error
+          measures how well it predicts unseen data. A lower RMS error indicates
+          that the predictions are closer to the actual values.
+        </p>
+
+        $$\mathrm{RMS} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i-y_i)^2}$$
+
+        <hr />
+
+        <h4>Results</h4>
+        <p>
+          As the polynomial degree increased, the training error decreased
+          because higher-degree models can fit the training data more closely.
+          However, the testing error increased at higher degrees, suggesting
+          overfitting. Degree 1 achieved the lowest testing RMS error among the
+          models tested, indicating that the simpler model generalized better to
+          unseen data.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/polynomial_regression_errors.png"
+            alt="Training and testing RMS errors by polynomial degree"
+            style="width: 48%"
+          />
+        </div>
+      </section>
+
+      <section>
+        <h3>Degree 1 Polynomial Regression</h3>
+
+        <p>
+          The learned bias is 22.3090. The weight for RM (average number of
+          rooms) is 4.1956, while the weight for DIS (distance to employment
+          centers) is 0.0107.
+        </p>
+
+        <p>
+          The positive RM weight makes sense because houses with more rooms tend
+          to be worth more. Its relatively large weight also suggests that the
+          number of rooms is one of the more important factors in our model. On
+          the other hand, the DIS weight is very small, meaning distance to
+          employment centers has little effect on our predictions.
+        </p>
+
+        <p>All learned weights, including the bias, are listed below:</p>
+
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>Weight</th>
+          </tr>
+          <tr>
+            <td>Bias</td>
+            <td>22.3090</td>
+          </tr>
+          <tr>
+            <td>CRIM</td>
+            <td>-1.3380</td>
+          </tr>
+          <tr>
+            <td>ZN</td>
+            <td>0.1230</td>
+          </tr>
+          <tr>
+            <td>INDUS</td>
+            <td>-0.5311</td>
+          </tr>
+          <tr>
+            <td>CHAS</td>
+            <td>0.0000</td>
+          </tr>
+          <tr>
+            <td>NOX</td>
+            <td>1.0027</td>
+          </tr>
+          <tr>
+            <td>RM</td>
+            <td>4.1956</td>
+          </tr>
+          <tr>
+            <td>AGE</td>
+            <td>-2.1663</td>
+          </tr>
+          <tr>
+            <td>DIS</td>
+            <td>0.0107</td>
+          </tr>
+          <tr>
+            <td>RAD</td>
+            <td>-0.1938</td>
+          </tr>
+          <tr>
+            <td>TAX</td>
+            <td>-0.3486</td>
+          </tr>
+          <tr>
+            <td>PTRATIO</td>
+            <td>0.2613</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>0.1811</td>
+          </tr>
+          <tr>
+            <td>LSTAT</td>
+            <td>0.1488</td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h3>Single Feature Polynomial Regression</h3>
+
+        <p>
+          We used the third feature, INDUS, to predict median house values using
+          polynomial regression. Again, the first 100 samples were used for
+          training, and the remaining samples were used for testing. The
+          features were normalized using the mean and standard deviation of the
+          training data.
+        </p>
+
+        <p>
+          We tested polynomial degrees 1 through 7 to compare models of
+          different complexity. As shown in the table, training RMS generally
+          decreased as the degree increased, while testing RMS increased
+          significantly for higher degrees. This suggests overfitting, where
+          more complex models fit the training data better but perform poorly on
+          unseen data. From the table, we can see that degree 1 have the lowest
+          testing RMS.
+        </p>
+
+        <h4>RMS Results by Polynomial Degree</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Degree</th>
+              <th>Training RMS</th>
+              <th>Testing RMS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>5.2393</td>
+              <td>9.8555</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>4.3528</td>
+              <td>18.5269</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>4.3524</td>
+              <td>17.2528</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>4.2537</td>
+              <td>84.1407</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>4.2266</td>
+              <td>176.8406</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>4.2139</td>
+              <td>1009.1254</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>3.9944</td>
+              <td>29250.4971</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/indus_degree_1.png"
+            alt="Degree 1 polynomial regression"
+            style="max-width: 48%"
+          />
+
+          <img
+            src="media/indus_degree_4.png"
+            alt="Degree 4 polynomial regression"
+            style="max-width: 48%"
+          />
+
+          <img
+            src="media/indus_degree_7.png"
+            alt="Degree 7 polynomial regression"
+            style="max-width: 48%"
+          />
+        </div>
+      </section>
+
+      <section>
+        <h3>Polynomial Regression Regularization</h3>
+
+        <p>
+          We implemented L2-regularized regression (ridge regression) with a
+          degree 8 polynomial, using only the 2nd feature from the first 100
+          data points. The model minimizes prediction errors while keeping the
+          weights small:
+        </p>
+
+        $$\min_{\mathbf{w}}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2+\lambda\sum_{j=1}^{8}w_j^2$$
+
+        <p>
+          To find the best regularization constant, we used 10-fold
+          cross-validation. We split the data into 10 folds, trained on 9 folds,
+          and tested on the remaining fold. We repeated this for each fold and
+          averaged the validation RMS errors for each $\lambda$ value.
+        </p>
+
+        <p>
+          Without regularization ($\lambda = 0$), the average validation RMS
+          error was 178.3534. With $\lambda = 1000$, the error dropped to
+          7.5711, the lowest among all the values we tested. Therefore, we chose
+          $\lambda = 1000$ for the lowest validation error.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/polynomial_regularization_cv.png"
+            alt="Polynomial regression regularization cross-validation plot"
+            style="max-width: 48%"
+          />
+        </div>
+      </section>
+
+      <h2>Part 2: Gaussian Basis Function</h2>
+
+      <section>
+        <h3>Gaussian Regression</h3>
+
+        <p>
+          Our goal is to predict median house values based on features
+          describing a town using Gaussian regression.
+        </p>
+
+        <hr />
+
+        <h4>Data Preparation</h4>
+        <p>
+          We used the first 100 data points for training and the remaining
+          points for testing. We normalized the input features using the
+          training data's mean $\mu$ and standard deviation $\sigma$. We tested
+          models with 5, 15, 25, ..., 95 Gaussian basis functions, selecting
+          random training points as the centers.
+        </p>
+
+        $$x' = \frac{x-\mu}{\sigma}$$
+
+        <hr />
+
+        <h4>Gaussian Basis Functions</h4>
+        <p>
+          Each Gaussian basis function measures how close an input is to a
+          selected center. Points closer to the center receive higher values,
+          while points farther away receive values closer to zero.
+        </p>
+
+        $$\phi_j(\mathbf{x}) =
+        \exp\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_j\|^2}{2s^2}\right)$$
+
+        <p>
+          Here, $\boldsymbol{\mu}_j$ is the center of the $j$-th basis function,
+          and $s$ controls its width.
+        </p>
+
+        <hr />
+
+        <h4>Fitting the Model</h4>
+        <p>
+          We transformed the input data using the Gaussian basis functions and
+          applied least squares to find the weights that minimize the training
+          error. We also included a column of ones for the intercept term and
+          did not use regularization.
+        </p>
+
+        $$\hat{y}(\mathbf{x}) = w_0 + \sum_{j=1}^{K} w_j\phi_j(\mathbf{x})$$
+
+        <hr />
+
+        <h4>Evaluation</h4>
+        <p>
+          We evaluated each model using the root mean squared (RMS) error on
+          both the training and testing data. The training error measures how
+          well the model fits the training data, while the testing error
+          measures how well it predicts unseen data. A lower RMS error means the
+          predictions are closer to the actual values.
+        </p>
+
+        $$\mathrm{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(\hat{y}_i-y_i)^2}$$
+
+        <hr />
+
+        <h4>Results</h4>
+        <p>
+          As the number of basis functions increased, the training error
+          generally decreased. However, the testing error fluctuated rather than
+          steadily improving. The lowest testing RMS error was 8.4540 with 45
+          basis functions. With 95 basis functions, the training RMS error
+          dropped to 0.2858, but the testing RMS error rose sharply to 54.4899.
+          This suggests that the model with 95 basis functions overfit the
+          training data and performed poorly on unseen data.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/gaussian_regression.png"
+            alt="Training and testing RMS errors by number of Gaussian basis functions"
+            style="width: 48%"
+          />
+        </div>
+      </section>
+
+      <section>
+        <h3>Gaussian Regression Regularization</h3>
+
+        <p>
+          We implemented L2-regularized Gaussian regression using the training
+          points as Gaussian basis centers. The model minimizes prediction
+          errors while keeping the weights small, excluding the intercept $w_0$
+          from regularization:
+        </p>
+
+        $$\min_{\mathbf{w}}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2+\lambda\sum_{j=1}^{m}w_j^2$$
+
+        <p>
+          To find the best regularization constant, we used 10-fold
+          cross-validation. We split the first 100 data points into 10 folds,
+          trained on 9 folds (90 points), and validated on the remaining fold
+          (10 points). We normalized each fold using only its training data,
+          calculated the Gaussian bandwidth using the training points, and
+          averaged the validation RMS errors for each $\lambda$ value.
+        </p>
+
+        <p>
+          Without regularization ($\lambda = 0$), the average validation RMS
+          error was 8.0366. With $\lambda = 0.01$, the error dropped to 2.0516,
+          the lowest among all the values we tested. As $\lambda$ increased
+          beyond 0.01, the validation error increased. Therefore, we chose
+          $\lambda = 0.01$ as the best regularization constant.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/gaussian_regularization_cv.png"
+            alt="Gaussian regression regularization cross-validation plot"
+            style="max-width: 48%; width: 100%"
+          />
+        </div>
       </section>
     </main>
   </body>
