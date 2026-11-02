@@ -23,7 +23,197 @@
     <main>
       <a href="../index.html">&larr; Back to home page</a>
 
-      <h1>SYDE 572 - Assignment 1</h1>
+      <h1>SYDE 572 - Assignment 3</h1>
+
+      <h2>Part 1: PCA by hand</h2>
+
+      <section>
+        <h3>What is the first principal component?</h3>
+
+        <p>
+          Given the data points with two features $(x_1, x_2)$: $(-2, -1), (-1,
+          0), (0, 1), (1, 2), (2, 3)$.
+        </p>
+
+        <hr />
+
+        <p><strong>Step 1: Calculate the mean.</strong></p>
+        <p>We can calculate the mean of each feature:</p>
+        <p>$$\mu_{x1} = \frac{(-2) + (-1) + 0 + 1 + 2}{5} = 0$$</p>
+        <p>$$\mu_{x2} = \frac{(-1) + 0 + 1 + 2 + 3}{5} = 1$$</p>
+        <p>Thus, the mean vector is:</p>
+        <p>$$\mu = (\mu_{x1}, \mu_{x2}) = (0, 1)$$</p>
+
+        <p><strong>Step 2: Center the data.</strong></p>
+        <p>Subtract the mean vector from each data point:</p>
+        <p>$$x_i^{\text{centered}} = x_i - \mu$$</p>
+        <p>
+          This gives the centered data points: $(-2,-2), (-1,-1), (0,0), (1,1),
+          (2,2)$.
+        </p>
+
+        <p><strong>Step 3: Calculate the covariance matrix.</strong></p>
+        <p>
+          Using the centered data matrix $X_c$, the sample covariance matrix is:
+        </p>
+        <p>$$\Sigma = \frac{1}{n-1}X_c^T X_c$$</p>
+        <p>Multiply the centered matrices:</p>
+        <p>
+          $$X_c^T X_c = \begin{bmatrix} (-2)^2+(-1)^2+0^2+1^2+2^2 &
+          (-2)(-2)+(-1)(-1)+0(0)+1(1)+2(2) \\ (-2)(-2)+(-1)(-1)+0(0)+1(1)+2(2) &
+          (-2)^2+(-1)^2+0^2+1^2+2^2 \end{bmatrix}$$
+        </p>
+        <p>$$= \begin{bmatrix} 10 & 10 \\ 10 & 10 \end{bmatrix}$$</p>
+        <p>Finally, divide by $n-1=4$:</p>
+        <p>
+          $$\Sigma = \frac{1}{4} \begin{bmatrix} 10 & 10 \\ 10 & 10
+          \end{bmatrix} = \begin{bmatrix} 2.5 & 2.5 \\ 2.5 & 2.5 \end{bmatrix}$$
+        </p>
+
+        <p><strong>Step 4: Find the eigenvalues.</strong></p>
+        <p>Solve the characteristic equation $\det(\Sigma-\lambda I)=0$:</p>
+        <p>
+          $$\begin{vmatrix} 2.5-\lambda & 2.5 \\ 2.5 & 2.5-\lambda
+          \end{vmatrix}=0$$
+        </p>
+        <p>$$(2.5-\lambda)^2-(2.5)^2=0$$</p>
+        <p>$$\lambda(\lambda-5)=0$$</p>
+        <p>
+          Therefore, the eigenvalues are $\lambda_1=5$ and $\lambda_2=0$. The
+          first principal component corresponds to the largest eigenvalue,
+          $\lambda_1=5$.
+        </p>
+
+        <p><strong>Step 5: Find the eigenvector.</strong></p>
+        <p>Solve $(\Sigma-\lambda_1 I)v=0$:</p>
+        <p>
+          $$\begin{bmatrix} -2.5 & 2.5 \\ 2.5 & -2.5 \end{bmatrix}
+          \begin{bmatrix}v_1\\v_2\end{bmatrix} =
+          \begin{bmatrix}0\\0\end{bmatrix}$$
+        </p>
+        <p>
+          This gives $v_1=v_2$. Thus, $v=(1,1)$ is an eigenvector corresponding
+          to the largest eigenvalue.
+        </p>
+
+        <p><strong>Step 6: Normalize the eigenvector.</strong></p>
+        <p>Calculate the L2-norm of the eigenvector $v=(1,1)$:</p>
+        <p>$$\|v\|_2=\sqrt{1^2+1^2}=\sqrt{2}$$</p>
+        <p>Divide the eigenvector by its norm to obtain a unit vector:</p>
+        <p>
+          $$w_1=\frac{v}{\|v\|_2}
+          =\frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}$$
+        </p>
+        <p>Therefore, the first principal component is:</p>
+        <p>
+          $$w_1=\begin{bmatrix} \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}}
+          \end{bmatrix}$$
+        </p>
+
+        <hr />
+
+        <h3>What is the (L2-norm) reconstruction error of the point (3, 3)?</h3>
+
+        <p><strong>Step 1: Center the point.</strong></p>
+        <p>We center the point $(3,3)$ using the mean $\mu=(0,1)$:</p>
+        <p>
+          $$x_c = \begin{bmatrix}3\\3\end{bmatrix} -
+          \begin{bmatrix}0\\1\end{bmatrix} = \begin{bmatrix}3\\2\end{bmatrix}$$
+        </p>
+
+        <p>
+          <strong>Step 2: Project onto the first principal component.</strong>
+        </p>
+
+        <p>Calculate the projection coefficient:</p>
+
+        <p>
+          $$z = x_c^T w_1 = \begin{bmatrix}3 & 2\end{bmatrix} \begin{bmatrix}
+          \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} \end{bmatrix} =
+          \frac{5}{\sqrt{2}}$$
+        </p>
+
+        <p><strong>Step 3: Reconstruct the centered point.</strong></p>
+
+        <p>
+          Multiply the projection coefficient by the first principal component:
+        </p>
+
+        <p>
+          $$\hat{x}_c = zw_1 = \frac{5}{\sqrt{2}}\begin{bmatrix}
+          \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} \end{bmatrix} =
+          \begin{bmatrix}\frac{5}{2}\\\frac{5}{2}\end{bmatrix}$$
+        </p>
+
+        <p><strong>Step 4: Calculate the reconstruction error.</strong></p>
+
+        <p>
+          The L2-norm reconstruction error is the Euclidean distance between the
+          centered point and its reconstruction:
+        </p>
+
+        <p>$$e = \|x_c-\hat{x}_c\|_2$$</p>
+
+        <p>
+          $$= \sqrt{\left(3-\frac{5}{2}\right)^2 +
+          \left(2-\frac{5}{2}\right)^2}$$
+        </p>
+
+        <p>
+          $$= \sqrt{\left(\frac{1}{2}\right)^2 + \left(-\frac{1}{2}\right)^2}$$
+        </p>
+
+        <p>
+          $$= \sqrt{\frac{1}{4}+\frac{1}{4}} = \sqrt{\frac{1}{2}} \approx
+          0.7071$$
+        </p>
+
+        <h3>What is the (L2-norm) reconstruction error of the point (3, 4)?</h3>
+
+        <p><strong>Step 1: Center the point.</strong></p>
+        <p>We center the point $(3,4)$ using the mean $\mu=(0,1)$:</p>
+        <p>
+          $$x_c = \begin{bmatrix}3\\4\end{bmatrix} -
+          \begin{bmatrix}0\\1\end{bmatrix} = \begin{bmatrix}3\\3\end{bmatrix}$$
+        </p>
+
+        <p>
+          <strong>Step 2: Project onto the first principal component.</strong>
+        </p>
+
+        <p>Calculate the projection coefficient:</p>
+
+        <p>
+          $$z = x_c^T w_1 = \begin{bmatrix}3 & 3\end{bmatrix} \begin{bmatrix}
+          \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} \end{bmatrix} =
+          \frac{6}{\sqrt{2}}$$
+        </p>
+
+        <p><strong>Step 3: Reconstruct the centered point.</strong></p>
+
+        <p>
+          Multiply the projection coefficient by the first principal component:
+        </p>
+
+        <p>
+          $$\hat{x}_c = zw_1 = \frac{6}{\sqrt{2}} \begin{bmatrix}
+          \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} \end{bmatrix} =
+          \begin{bmatrix}3\\3\end{bmatrix}$$
+        </p>
+
+        <p><strong>Step 4: Calculate the reconstruction error.</strong></p>
+
+        <p>
+          The L2-norm reconstruction error is the Euclidean distance between the
+          centered point and its reconstruction:
+        </p>
+
+        <p>$$e = \|x_c-\hat{x}_c\|_2$$</p>
+
+        <p>$$= \sqrt{(3-3)^2+(3-3)^2}$$</p>
+
+        <p>$$= \sqrt{0^2+0^2}=0$$</p>
+      </section>
     </main>
   </body>
 </html>
