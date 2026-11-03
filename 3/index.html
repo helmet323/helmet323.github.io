@@ -214,6 +214,194 @@
 
         <p>$$= \sqrt{0^2+0^2}=0$$</p>
       </section>
+
+      <h2>Part 2: Data Visualization</h2>
+      <section>
+        <h3>Petal Length vs. Petal Width</h3>
+
+        <p>
+          The dataset of iris flowers visualized using their petal length and
+          width shows a nice cluster. Setosa species are cleanly separated from
+          the other two species, while versicolor and virginica only overlap
+          slightly. Therefore, petal length and width are good features to use
+          for distinguishing between the three species of iris flowers.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+          "
+        >
+          <img
+            src="media/iris_plot.png"
+            alt="Petal Length vs. Petal Width"
+            style="width: 48%"
+          />
+        </div>
+      </section>
+
+      <h2>Part 3: Principal Components Analysis (PCA)</h2>
+
+      <section>
+        <h3>PCA on the Iris Dataset</h3>
+
+        <p>
+          We applied PCA to the Iris dataset using its four original features.
+          The PCA axis vectors are shown below, with features ordered as sepal
+          length, sepal width, petal length, and petal width.
+        </p>
+
+        <ul>
+          <li>PC1: [0.3614, -0.0845, 0.8567, 0.3583]</li>
+          <li>PC2: [0.6566, 0.7302, -0.1734, -0.0755]</li>
+          <li>PC3: [-0.5820, 0.5979, 0.0762, 0.5458]</li>
+          <li>PC4: [0.3155, -0.3197, -0.4798, 0.7537]</li>
+        </ul>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+          "
+        >
+          <img
+            src="media/pca_1d.png"
+            alt="Projection onto the first principal component"
+            style="width: 48%; min-width: 280px"
+          />
+          <img
+            src="media/pca_2d.png"
+            alt="Projection onto the first two principal components"
+            style="width: 48%; min-width: 280px"
+          />
+          <img
+            src="media/pca_3d.png"
+            alt="Projection onto the first three principal components"
+            style="width: 70%; min-width: 280px"
+          />
+        </div>
+
+        <p>
+          The plots show that Setosa is clearly separated from the other
+          species, while Versicolor and Virginica overlap.
+        </p>
+      </section>
+
+      <h2>Part 4: Data Compression</h2>
+
+      <section>
+        <p>
+          We used <code>pca.explained_variance_ratio_</code> to get the
+          explained variance ratios and calculated the cumulative variance
+          explained by the principal components. We obtained the following
+          results:
+        </p>
+
+        <ul>
+          <li>First 1 PC: 92.46%</li>
+          <li>First 2 PCs: 97.77%</li>
+          <li>First 3 PCs: 99.48%</li>
+          <li>First 4 PCs: 100.00%</li>
+        </ul>
+
+        <h3>
+          How much of the variance is explained by our two-dimensional
+          representation from the previous question?
+        </h3>
+
+        <p>
+          The first two principal components explain approximately 97.77% of the
+          total variance, preserving most of the variation in the original
+          dataset.
+        </p>
+
+        <hr />
+
+        <h3>
+          How many PCs are required to explain 50% of the variance in the data?
+        </h3>
+
+        <p>
+          The first principal component explains approximately 92.46% of the
+          total variance. Therefore, only one principal component is required to
+          explain at least 50% of the variance.
+        </p>
+      </section>
+
+      <h2>Part 5: Non-linear Components</h2>
+
+      <section>
+        <h3>Comparison of PCA and Isomap</h3>
+
+        <p>
+          Both PCA and Isomap produce similar visualizations of the Iris
+          dataset, with similar separation between the three species. Setosa is
+          clearly separated under both methods, while versicolor and virginica
+          overlap a bit. PCA is able to retain a lot of information using two
+          dimensions (about 97.77% of the variance). Isomap, while it is
+          nonlinear, does not add much beyond this. It does not separate
+          versicolor and virginica any better than PCA does, and the overlap
+          between them remains in both plots.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+          "
+        >
+          <img
+            src="media/isomap_2d.png"
+            alt="Isomap embedding"
+            style="width: 48%; min-width: 280px"
+          />
+        </div>
+
+        <p>
+          <strong>Code:</strong>
+        </p>
+
+        <pre><code>from sklearn.datasets import load_iris
+from sklearn.manifold import Isomap
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Load dataset
+iris = load_iris()
+X = np.array(iris.data)
+y = np.array(iris.target)
+
+# Apply Isomap using 3 nearest neighbours
+isomap = Isomap(n_neighbors=3, n_components=2)
+X_isomap = isomap.fit_transform(X)
+
+# Plot results
+plt.figure()
+
+for i, name in enumerate(iris.target_names):
+    plt.scatter(
+        X_isomap[y == i, 0],
+        X_isomap[y == i, 1],
+        label=name
+    )
+
+plt.xlabel("Component 1")
+plt.ylabel("Component 2")
+plt.title("Isomap with 3 Nearest Neighbours")
+plt.legend()
+plt.savefig("media/isomap_2d.png", dpi=300, bbox_inches="tight")
+plt.show()
+</code></pre>
+      </section>
     </main>
   </body>
 </html>
